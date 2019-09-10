@@ -61,14 +61,14 @@ export default class SdkGen {
   }
 `;
 const endString = `}`;
-function functionSignature({ operationName, url, methodName, isFormData }) {
+function functionSignature({ operationName, url, requestMethod, isFormData }) {
   return `
 ${operationName}({ _params, _pathParams, ..._data }) {
   return new Promise((resolve, reject) => {
     this.fetchApi({
       resolve,
       _url:'${url}',
-      method:'${methodName}',
+      method:'${requestMethod}',
       _data,
       isFormData:${isFormData},
       _params,
