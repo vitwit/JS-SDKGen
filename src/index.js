@@ -1,6 +1,5 @@
 const { startString, endString, functionSignature } = require("./codeStrings");
 const fs = require("fs");
-const goJsonFile = require("./api_data.json");
 
 function camelCase(str) {
   return str
