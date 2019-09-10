@@ -4,7 +4,7 @@ export default class SdkGen {
     this.axiosInstance = axiosInstance;
   }
 
-  async fetchApi({
+  fetchApi({
     resolve,
     isFormData,
     method,
@@ -14,70 +14,71 @@ export default class SdkGen {
     _pathParams = [],
     headerConfigs = {}
   }) {
-    const obj = {
-      error: null,
-      data: null
-    };
-    let data = _data;
-    if (isFormData) {
-      const formdata = new FormData();
-      Object.entries(_data).forEach(arr => {
-        formdata.append(arr[0], arr[1]);
-      });
-      data = formdata;
-    }
-    let url = _url;
-    if (Object.keys(_pathParams).length) {
-      Object.entries(_pathParams).forEach(
-        arr => (url = url.replace("{" + arr[0] + "}", arr[1]))
-      );
-    }
-    try {
-      const resObj = await this.axiosInstance({
-        url,
-        method,
-        data,
-        ...(Object.keys(_params).length ? { params: _params } : {}),
-        ...(isFormData
-          ? {
-              headers: {
-                "Content-Type": "multipart/form-data"
-              }
-            }
-          : {})
-      });
-      obj.data = resObj.data;
-      resolve(obj);
-    } catch (error) {
-      if (error.response) {
-        obj.error = error.response.data;
-      } else if (error.request) {
-        obj.error = error.request;
-      } else {
-        obj.error = error.message;
+    return new Promise(async resolve => {
+      const obj = {
+        error: null,
+        data: null
+      };
+      let data = _data;
+      if (isFormData) {
+        const formdata = new FormData();
+        Object.entries(_data).forEach(arr => {
+          formdata.append(arr[0], arr[1]);
+        });
+        data = formdata;
       }
-      resolve(obj);
-    }
+      let url = _url;
+      if (Object.keys(_pathParams).length) {
+        Object.entries(_pathParams).forEach(
+          arr => (url = url.replace("{" + arr[0] + "}", arr[1]))
+        );
+      }
+      try {
+        const resObj = await this.axiosInstance({
+          url,
+          method,
+          data,
+          ...(Object.keys(_params).length ? { params: _params } : {}),
+          ...(isFormData
+            ? {
+                headers: {
+                  "Content-Type": "multipart/form-data"
+                }
+              }
+            : {})
+        });
+        obj.data = resObj.data;
+        resolve(obj);
+      } catch (error) {
+        if (error.response) {
+          obj.error = error.response.data;
+        } else if (error.request) {
+          obj.error = error.request;
+        } else {
+          obj.error = error.message;
+        }
+        resolve(obj);
+      }
+    });
   }
+
 `;
-const endString = `}`;
 function functionSignature({ operationName, url, requestMethod, isFormData }) {
   return `
-${operationName}({ _params, _pathParams, ..._data }) {
-  return new Promise((resolve, reject) => {
-    this.fetchApi({
-      resolve,
-      _url:'${url}',
-      method:'${requestMethod}',
+  ${operationName}({ _params, _pathParams, ..._data }) {
+    return this.fetchApi({
+      method: "${requestMethod}",
+      isFormData: ${isFormData},
+      _url: '${url}',
       _data,
-      isFormData:${isFormData},
       _params,
       _pathParams
     });
-  });
-}
+  }
   `;
 }
+const endString = `}`;
+
 module.exports = {
   startString,
   endString,

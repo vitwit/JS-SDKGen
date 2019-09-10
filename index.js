@@ -1,5 +1,6 @@
 const { startString, endString, functionSignature } = require("./codeStrings");
 const fs = require("fs");
+const goJsonFile = require("./api_data.json");
 
 function camelCase(str) {
   return str
@@ -79,7 +80,7 @@ function generateSDK({
   const fs = require("fs");
   fs.writeFile("apiSDK.js", storeJsCodeInThisArr.join(""), err => {
     if (err) throw err;
-    console.log("done");
+    console.log("apiSDK.js file generated successfully");
   });
 }
 module.exports = {
