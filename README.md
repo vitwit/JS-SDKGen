@@ -58,13 +58,13 @@ async function getUser(){
 }
 ```
 
-###### note: It will handle error for you, so you will not get errors catch block but in response only.
+###### note: It will handle error for you, so you will not get errors in catch block but in response only.
 
 ### What's so cool about this?
 
 You don't have to deal with calling API's, managing API constants, handling errors, approriate headers, params,path params etc.
-On top of that if can change data structure of response if they want and provide a object `transformOperations` with key as operation which
-will take current data structure and provide the previous one for one who opt to use old version.
+On top of that if backend change data structure of response, they can provide a object `transformOperations` with key as operationName functions which
+will take current data structure and provide the previous version for one who opt to use old version.
 
 ### What Next
 
