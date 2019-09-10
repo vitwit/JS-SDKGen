@@ -1,6 +1,8 @@
 const { startString, endString, functionSignature } = require("./codeStrings");
 const fs = require("fs");
-const jsonFile = require("./api_data.json");
+const goJson = require("./api_data.json");
+const jsonFile = require("./jsonFile.json");
+
 function camelCase(str) {
   return str
     .replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
@@ -13,11 +15,11 @@ function generateSDK({
   jsonFile,
   isGoGenerated,
   isSwaggerGenerated,
-  transformFunction
+  transformFunction = a => a
 }) {
   const storeJsCodeInThisArr = [];
   storeJsCodeInThisArr.push(startString);
-  if (transformFunction) {
+  if (!isGoGenerated && !isSwaggerGenerated) {
     const formatedCode = transformFunction(jsonFile);
     formatedCode.forEach(
       ({ operationName, url, requestMethod, isFormData }) => {
