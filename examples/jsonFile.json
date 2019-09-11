@@ -1,8 +1,0 @@
-[
-  {
-    "requestMethod": "POST",
-    "operationName": "createUser",
-    "isFormData": false,
-    "url": "/user/{userId}"
-  }
-]
