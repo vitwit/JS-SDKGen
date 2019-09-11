@@ -1,6 +1,6 @@
 {
-  "name": "testvgen",
-  "version": "0.0.3",
+  "name": "tstvgen",
+  "version": "0.0.2",
   "description": "A CLI to generate API SDKs",
   "main": "src/index.js",
   "bin": "bin/vgen",
