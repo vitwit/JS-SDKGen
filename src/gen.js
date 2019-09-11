@@ -2,14 +2,18 @@ import chalk from "chalk";
 const { startString, endString, functionSignature } = require("./codeStrings");
 const fs = require("fs");
 
-function camelCase(str) {
-  return str
+function toCamelCase(s) {
+  return s
     .replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
       return index == 0 ? word.toLowerCase() : word.toUpperCase();
     })
     .replace(/\s+/g, "");
 }
-
+function toTitleCase(s) {
+  return s.replace(/\w+/g, function(w) {
+    return w[0].toUpperCase() + w.slice(1).toLowerCase();
+  });
+}
 export function generateSDK({
   jsonFile,
   jsonFilePath,
@@ -77,7 +81,7 @@ export function generateSDK({
         const url = api.url;
         const requestMethod = api.type;
         const apiGroup = api.group;
-        const operationName = camelCase(api.name);
+        const operationName = toCamelCase(api.name);
         const isFormData =
           api.parameter &&
           api.parameter.fields &&

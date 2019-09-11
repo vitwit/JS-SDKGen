@@ -4,31 +4,27 @@ import chalk from "chalk";
 import { createProject } from "./main";
 
 function parseArgumentsIntoOptions(rawArgs) {
-  const args = arg(
-    {
-      "--isGo": Boolean,
-      "--isSwagger": Boolean
-    },
-    {
-      argv: rawArgs.slice(2)
-    }
-  );
+  console.log(rawArgs.slice(2), "rawArgs");
 
-  const getPath = (arg, defaultFileName) => {
-    if (arg === "-") {
-      return defaultFileName;
-    }
-    if (arg) {
-      return arg;
-    }
-    return undefined;
+  const parseArgs = argArr => {
+    const knownArgs = (argArr || []).filter(
+      param =>
+        param.includes("jsFile") ||
+        param.includes("jsonFile") ||
+        param.includes("version") ||
+        param.includes("name")
+    );
+    const unKnownArgs = (argArr || []).filter(
+      arg => knownArgs.indexOf(arg) < 0
+    );
   };
-  return {
-    isGoGenerated: args["--isGo"] || false,
-    isSwaggerGenerated: args["--isSwagger"] || false,
-    jsonFilePath: getPath(args._[0], "api-docs.json"),
-    jsFilePath: getPath(args._[1], "vgen.js")
-  };
+  return {};
+
+  // return {
+  //   isGoGenerated: args["--isGo"] || false,
+  //   isSwaggerGenerated: args["--isSwagger"] || false,
+  //   ...parseArgs(args._)
+  // };
 }
 
 export async function cli(args) {

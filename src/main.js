@@ -24,10 +24,7 @@ export async function createProject(options) {
   };
   const jsonFilePath = options.jsonFilePath;
   const jsFilePath = options.jsFilePath;
-  console.log(
-    path.resolve(process.cwd(), jsonFilePath),
-    chalk.yellow.bold("if it can work")
-  );
+
   const jsonFileDir = path.resolve(process.cwd(), jsonFilePath);
   options.jsonFilePath = jsonFileDir;
   let jsFileDir;
