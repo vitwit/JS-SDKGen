@@ -1,7 +1,7 @@
 {
-  "name": "sdk",
+  "name": "vGen",
   "version": "1.0.0",
-  "description": "sdk generator",
+  "description": "javascript sdk generator from json config",
   "main": "index.js",
   "scripts": {
     "test": "npm test"
@@ -10,6 +10,11 @@
     "sdk",
     "codegen"
   ],
-  "author": "yash rathore",
-  "license": "ISC"
+  "author": "Vitwit",
+  "contributors": [{
+    "name": "Yash Rathore",
+    "email": "yash@vitwit.com",
+    "url": ""
+  }],
+  "license": "MIT"
 }
