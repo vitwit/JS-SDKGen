@@ -48,11 +48,10 @@ export default myapp;
 
 Helpful methods or configs available before initialization.
 
-| method                   | use                                                  | optional or required |
-| ------------------------ | ---------------------------------------------------- | -------------------- |
-| `configs`                | overide configs                                      | optional             |
-| `getAuthorizationHeader` | will be called on every request to get authoraztion, | required             |
-|                          | can be updated after initialization                  |                      |
+| method                   | use                                                                                     | optional or required |
+| ------------------------ | --------------------------------------------------------------------------------------- | -------------------- |
+| `configs`                | overide configs                                                                         | optional             |
+| `getAuthorizationHeader` | will be called on every request to get authoraztion,can be updated after initialization | required             |
 
 The json file mentioned above should have following data structure.(make sure you write `operationId` in your node backend inline comments for swagger generated API docs)
 
@@ -77,13 +76,13 @@ If not, you should provide a JavaScript file which will be called with provided 
 it should return that file in above format.
 This JavaScript file can name export these two function.
 
-| function name        | use                                                                    |
-| -------------------- | ---------------------------------------------------------------------- |
-| `transformJson`      | as mention above it will be called with given json file                |
-|                      | will be passed the data coming from backend,                           |  |
-| `transformOperatons` | it should be a object with operationName as methods which              |
-|                      | should returned the desired format(might be helpful when backend might |
-|                      | change format but frontend still consuming old format)                 |
+| function name                                          | use                                                                                                                             |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| `transformJson`                                        | as mention above it will be called with given json file                                                                         |
+|                                                        | will be passed the data coming from backend,                                                                                    |  |
+| `transformOperatons`                                   | it should be a object with operationName as methods whichshould returned the desired format(might be helpful when backend might |
+| change format but frontend still consuming old format) |
+|                                                        |
 
 ## Using Generated SDK
 
