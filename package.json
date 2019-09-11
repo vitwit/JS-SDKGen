@@ -1,14 +1,11 @@
 {
   "name": "vwgen",
-  "version": "0.0.1",
-  "description": "A CLI to generate API SDKs",
+  "version": "0.0.2",
+  "description": "javascript sdk generator from json config",
   "main": "src/index.js",
   "bin": "bin/vgen",
   "publishConfig": {
     "access": "public"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "cli",
@@ -16,7 +13,14 @@
     "sdk",
     "vitwit"
   ],
-  "author": "Yash Rathore",
+  "author": "Vitwit",
+  "contributors": [
+    {
+      "name": "Yash Rathore",
+      "email": "yash@vitwit.com",
+      "url": ""
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "arg": "^4.1.0",
