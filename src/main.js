@@ -45,6 +45,7 @@ export async function createProject(options) {
       await access(jsFileDir, fs.constants.R_OK);
     }
   } catch (err) {
+    console.log(jsonFilePath, chalk.yello.bold("json file path"));
     if (jsFilePath === "vgen.js") {
       console.error(
         "%s vgen.js does not exist in root of this directory or invalid",
@@ -59,6 +60,7 @@ export async function createProject(options) {
       );
       process.exit(1);
     }
+    console.log(err);
     console.error("%s file is invalid", chalk.red.bold("ERROR"));
     process.exit(1);
   }
