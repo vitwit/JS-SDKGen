@@ -24,19 +24,15 @@ export async function createProject(options) {
   };
   const jsonFilePath = options.jsonFilePath;
   const jsFilePath = options.jsFilePath;
-  const jsonFileDir = path.resolve(
-    new URL(import.meta.url).pathname,
-    "../../",
-    jsonFilePath
+  console.log(
+    path.resolve(process.cwd(), jsonFilePath),
+    chalk.yellow.bold("if it can work")
   );
+  const jsonFileDir = path.resolve(process.cwd(), jsonFilePath);
   options.jsonFilePath = jsonFileDir;
   let jsFileDir;
   if (options.jsFilePath) {
-    jsFileDir = path.resolve(
-      new URL(import.meta.url).pathname,
-      "../../",
-      jsFilePath
-    );
+    jsFileDir = path.resolve(process.cwd(), jsFilePath);
   }
   options.jsFilePath = jsFileDir;
   try {
@@ -45,7 +41,6 @@ export async function createProject(options) {
       await access(jsFileDir, fs.constants.R_OK);
     }
   } catch (err) {
-    console.log(jsonFilePath, chalk.yellow.bold("json file path"));
     if (jsFilePath === "vgen.js") {
       console.error(
         "%s vgen.js does not exist in root of this directory or invalid",
@@ -60,7 +55,6 @@ export async function createProject(options) {
       );
       process.exit(1);
     }
-    console.log(err);
     console.error("%s file is invalid", chalk.red.bold("ERROR"));
     process.exit(1);
   }

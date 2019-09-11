@@ -1,6 +1,6 @@
 {
-  "name": "tstvgen",
-  "version": "0.0.2",
+  "name": "vwgen",
+  "version": "0.0.1",
   "description": "A CLI to generate API SDKs",
   "main": "src/index.js",
   "bin": "bin/vgen",

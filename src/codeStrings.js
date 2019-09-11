@@ -65,6 +65,7 @@ export default class SdkGen {
 `;
 function functionSignature({ operationName, url, requestMethod, isFormData }) {
   return `
+  impt fljsd
   ${operationName}({ _params, _pathParams, ..._data }) {
     return this.fetchApi({
       method: "${requestMethod}",
