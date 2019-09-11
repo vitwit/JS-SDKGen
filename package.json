@@ -1,0 +1,15 @@
+{
+  "name": "sdk",
+  "version": "1.0.0",
+  "description": "sdk generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "sdk",
+    "codegen"
+  ],
+  "author": "yash rathore",
+  "license": "ISC"
+}
