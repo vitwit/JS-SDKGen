@@ -1,28 +1,43 @@
-import arg from "arg";
-import inquirer from "inquirer";
 import chalk from "chalk";
 import { createProject } from "./main";
 
 function parseArgumentsIntoOptions(rawArgs) {
-  let flagsArr = [];
-  const paramsWithRequiredFlag = [];
+  let flagsArr = []; // --isSwagger and --isGo
+  let headerParams = []; // any param after --headers
+  let requiredHeaders = []; // i.e --headers appid=true,
+  let optionalHeaders = [];
+  let othersArgs = {}; // all params before --headers except flags
 
   const parseArgs = argArr => {
+    // here push complete "param=valueifany", later we modify this array to have only param, because value is just to know if it a required field
+    headerParams =
+      argArr.indexOf("--headers") >= 0
+        ? argArr.splice(argArr.indexOf("--headers") + 1)
+        : [];
+
     flagsArr = (argArr || []).filter(arg =>
       ["--isSwagger", "--isGo"].includes(arg)
     );
-    const noFlagsArr = (argArr || []).filter(
-      arg => !(arg.includes("--") && !arg.includes("="))
+
+    const otherParams = (argArr || []).filter(
+      (arg, index) => index < argArr.indexOf("--headers") && !arg.includes("--")
     );
-    (argArr || []).forEach((arg, index) => {
-      if (arg === "--required") {
-        paramsWithRequiredFlag.push(
-          ((argArr[index - 1] || "").split("=") || [])[0]
-        );
+    // get required fields
+    headerParams.forEach((arg, index) => {
+      const splitted = headerParams[index].split("=");
+      if (splitted[1]) {
+        requiredHeaders.push(splitted[0]);
       }
     });
+    // keep only params remove value
+    headerParams = headerParams.map(arg => arg.split("=")[0]);
+    optionalHeaders = headerParams.filter(
+      arg => requiredHeaders.indexOf(arg) < 0
+    );
+    console.log(optionalHeaders, "head");
 
-    const argsObj = (noFlagsArr || []).reduce(
+    // make a key-value obj of all other params before --headers
+    othersArgs = (otherParams || []).reduce(
       (acc, current) => {
         const splitFromEqual = (current || []).split("=");
         const key = splitFromEqual[0];
@@ -34,11 +49,13 @@ function parseArgumentsIntoOptions(rawArgs) {
       },
       { jsonFilePath: "api-docs.json" }
     );
-    return argsObj;
   };
+  parseArgs(rawArgs.slice(2));
+
   return {
-    ...parseArgs(rawArgs.slice(2)),
-    paramsWithRequiredFlag,
+    ...othersArgs,
+    requiredHeaders,
+    optionalHeaders,
     flags: {
       isGoGenerated: flagsArr.includes("--isGo"),
       isSwaggerGenerated: flagsArr.includes("--isSwagger")

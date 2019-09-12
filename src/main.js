@@ -1,35 +1,39 @@
 import chalk from "chalk";
-import execa from "execa";
 import fs from "fs";
-import gitignore from "gitignore";
 import Listr from "listr";
-import ncp from "ncp";
 import path from "path";
-import { projectInstall } from "pkg-install";
 import { promisify } from "util";
-
 const access = promisify(fs.access);
-const writeFile = promisify(fs.writeFile);
-const copy = promisify(ncp);
-const writeGitignore = promisify(gitignore.writeFile);
 const { generateSDK } = require("./codgen.js");
 
-async function generateJs({ flags, paramsWithRequiredFlag, ...options }) {
-  generateSDK({ ...flags, ...options });
+async function generateJs({
+  flags,
+  requiredHeaders = [],
+  optionalHeaders = [],
+  ...options
+}) {
+  generateSDK({
+    ...flags,
+    ...options,
+    optionalHeaders,
+    requiredHeaders
+  });
 }
 
 export async function createProject(options) {
   options = {
     ...options
   };
+
   const jsonFilePath = options.jsonFilePath;
   const jsFilePath = options.jsFilePath;
-  const jsonFileDir = path.resolve(process.cwd(), jsonFilePath);
+  const jsonFileDir = path.resolve(jsonFilePath);
 
   options.jsonFilePath = jsonFileDir;
   let jsFileDir;
+
   if (options.jsFilePath) {
-    jsFileDir = path.resolve(process.cwd(), jsFilePath);
+    jsFileDir = path.resolve(jsFilePath);
   }
   options.jsFilePath = jsFileDir;
 
@@ -71,4 +75,3 @@ export async function createProject(options) {
   );
   return true;
 }
-false;
