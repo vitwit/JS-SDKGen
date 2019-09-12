@@ -1,22 +1,22 @@
-const stringOne = ({ sdkName, version, baseURL }) => {
+import { notEmptyObj } from "./utils";
+const stringOne = ({ sdkName, version, baseUrl }) => {
   return `
 import axios from "axios";
 
-export default class Name {
+export default class ${sdkName} {
   constructor() {
     this.version = "${version}";
     this.name = "${sdkName}";
     this.configs = {
-      baseURL: "${baseURL}",
+      baseURL: "${baseUrl}",
       headers: {
-        Authorization: ${sdkName}.getAuthorizationHeader()
-      },
+        Authorization: ${sdkName}.getAuthorizationHeader(),
     `;
 };
-function stringTwo({ key, value }) {
-  return `
-      "${key}": "${value}",
-      ...${name}.configs
+function stringTwo({ key, value, sdkName }) {
+  return `    ${key}: "${value}",
+    },
+      ...${sdkName}.configs
     };
       `;
 }
@@ -97,28 +97,30 @@ fetchApi({
 }
     `;
 };
-function functionSignature({ operationName, url, requestMethod, isFormData }) {
+function functionSignature({
+  hasPathParams,
+  operationName,
+  url,
+  requestMethod,
+  isFormData
+}) {
   return `
-  ${operationName}({ _params, _pathParams, ..._data }) {
+  ${operationName}({ _params,${hasPathParams ? "_pathParams," : ""}${
+    requestMethod === "PUT" || requestMethod === "POST" ? "..._data" : ""
+  } }) {
     return this.fetchApi({
-      method: "${requestMethod}",
-      isFormData: ${isFormData},
-      _url: '${url}',
-      _data,
-      _params,
-      _pathParams
+      method: "${requestMethod}",${
+    isFormData ? "\n      isFormData: true," : ""
+  }
+      _url: '${url}',${
+    requestMethod === "PUT" || requestMethod === "POST" ? "\n      _data," : ""
+  }
+      _params,${hasPathParams ? "\n      _pathParams," : ""}
     });
   }
   `;
 }
-const stringFive = `
+const endString = `
 }
 `;
-
-module.exports = {
-  stringOne,
-  stringTwo,
-  stringThree,
-  functionSignature,
-  stringFour
-};
+export { stringOne, stringTwo, stringThree, functionSignature, endString };
