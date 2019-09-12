@@ -1,12 +1,6 @@
 import chalk from "chalk";
 import fs from "fs";
-import {
-  stringOne,
-  stringTwo,
-  stringThree,
-  functionSignature,
-  endString
-} from "./codeStrings";
+import { stringOne, functionSignature, endString } from "./codeStrings";
 import {
   extractPathParams,
   toCamelCase,
@@ -22,9 +16,10 @@ export function generateSDK({
   transformJson = a => a,
   transformOperations = {},
   baseUrl = "",
-  name,
+  name = "yournameSDK",
   version,
-  ...restHeaderConfigs
+  requiredHeaders,
+  optionalHeaders
 }) {
   let _jsonFile = jsonFile;
   let _name = toTitleCase(name);
@@ -45,15 +40,12 @@ export function generateSDK({
     stringOne({
       version,
       sdkName: _name,
-      baseUrl
+      baseUrl,
+      requiredHeaders,
+      optionalHeaders
     })
   );
-  Object.entries(restHeaderConfigs || {}).forEach(arr => {
-    storeJsCodeInThisArr.push(
-      stringTwo({ key: arr[0], value: arr[1], sdkName: _name })
-    );
-  });
-  storeJsCodeInThisArr.push(stringThree({ sdkName: _name }));
+
   try {
     if (!isGoGenerated && !isSwaggerGenerated) {
       const formatedCode = _transformJson(_jsonFile);
@@ -136,11 +128,7 @@ export function generateSDK({
   }
   storeJsCodeInThisArr.push(endString);
 
-  fs.writeFile(
-    name ? name + ".js" : "yournameSDK.js",
-    storeJsCodeInThisArr.join(""),
-    err => {
-      if (err) throw err;
-    }
-  );
+  fs.writeFile(name + ".js", storeJsCodeInThisArr.join(""), err => {
+    if (err) throw err;
+  });
 }
