@@ -12,10 +12,10 @@ const access = promisify(fs.access);
 const writeFile = promisify(fs.writeFile);
 const copy = promisify(ncp);
 const writeGitignore = promisify(gitignore.writeFile);
-const { generateSDK } = require("./gen.js");
+const { generateSDK } = require("./codgen.js");
 
-async function generateJs(options) {
-  generateSDK(options);
+async function generateJs({ flags, paramsWithRequiredFlag, ...options }) {
+  generateSDK({ ...flags, ...options });
 }
 
 export async function createProject(options) {
@@ -24,27 +24,21 @@ export async function createProject(options) {
   };
   const jsonFilePath = options.jsonFilePath;
   const jsFilePath = options.jsFilePath;
-
   const jsonFileDir = path.resolve(process.cwd(), jsonFilePath);
+
   options.jsonFilePath = jsonFileDir;
   let jsFileDir;
   if (options.jsFilePath) {
     jsFileDir = path.resolve(process.cwd(), jsFilePath);
   }
   options.jsFilePath = jsFileDir;
+
   try {
     await access(jsonFileDir, fs.constants.R_OK);
     if (jsFileDir) {
       await access(jsFileDir, fs.constants.R_OK);
     }
   } catch (err) {
-    if (jsFilePath === "vgen.js") {
-      console.error(
-        "%s vgen.js does not exist in root of this directory or invalid",
-        chalk.red.bold("ERROR")
-      );
-      process.exit(1);
-    }
     if (jsonFilePath === "api-docs.json") {
       console.error(
         "api-docs.json does not exist in root of this directory or invalid",
@@ -69,7 +63,12 @@ export async function createProject(options) {
   );
 
   await tasks.run();
-  console.log("%s file generated", chalk.green.bold("DONE"));
+  console.log(
+    `%s ${
+      options.name ? options.name + ".js" : ""
+    } file generated successfully`,
+    chalk.green.bold("DONE")
+  );
   return true;
 }
 false;
