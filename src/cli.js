@@ -19,8 +19,10 @@ function parseArgumentsIntoOptions(rawArgs) {
       ["--isSwagger", "--isGo"].includes(arg)
     );
 
-    const otherParams = (argArr || []).filter(
-      (arg, index) => index < argArr.indexOf("--headers") && !arg.includes("--")
+    const otherParams = (argArr || []).filter((arg, index) =>
+      argArr.indexOf("--headers") === -1
+        ? true
+        : index < argArr.indexOf("--headers") && !arg.includes("--")
     );
     // get required fields
     headerParams.forEach((arg, index) => {
@@ -34,7 +36,6 @@ function parseArgumentsIntoOptions(rawArgs) {
     optionalHeaders = headerParams.filter(
       arg => requiredHeaders.indexOf(arg) < 0
     );
-    console.log(optionalHeaders, "head");
 
     // make a key-value obj of all other params before --headers
     othersArgs = (otherParams || []).reduce(

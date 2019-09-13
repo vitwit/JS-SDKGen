@@ -1,21 +1,12 @@
-import { notEmptyObj } from "./utils";
-const stringOne = ({
-  sdkName,
-  version,
-  baseUrl,
-  requiredHeaders,
-  optionalHeaders
-}) => {
-  return `
+
 import axios from "axios";
 
-export default class ${sdkName} {
-  constructor( headersObj ={}) {${
-    version ? "\n    this.version =" : ""
-  }'${version}'
-    this.requiredHeaders = '${requiredHeaders}';
-    this.optionalHeaders = '${optionalHeaders}';
-    this.name = "${sdkName}";
+export default class Emailservice {
+  constructor( headersObj ={}) {
+    this.version ='1.0.0'
+    this.requiredHeaders = '';
+    this.optionalHeaders = '';
+    this.name = "Emailservice";
     if(this.requiredHeaders){
       this.requiredHeaders.split(',').forEach(header => {
         if (Object.keys(headersObj).indexOf(header) < 0) {
@@ -24,7 +15,7 @@ export default class ${sdkName} {
       });
     }
     this.configs = {
-      baseURL: "${baseUrl}",
+      baseURL: "fsk",
       headers: {
         ...headersObj,
       }
@@ -34,14 +25,13 @@ export default class ${sdkName} {
     });
     // get authorization on every request
     instance.interceptors.request.use(
-      configs => {
+      config => {
         if(this.optionalHeaders){
           this.optionalHeaders.split(',').forEach(header => {
             this.configs.headers[header] = this.getHeader(header);
           });
         }
-        configs.headers = this.configs.headers
-        return configs
+        return this.configs.headers;
       },
       error => Promise.reject(error)
     );
@@ -123,33 +113,79 @@ export default class ${sdkName} {
   }
   // ------All api method----
 
-    `;
-};
-
-function functionSignature({
-  hasPathParams,
-  operationName,
-  url,
-  requestMethod,
-  isFormData
-}) {
-  return `
-  ${operationName}({ _params,_pathParams,${
-    requestMethod === "PUT" || requestMethod === "POST" ? "..._data" : ""
-  } } = {}) {
+    
+  createProject({ _params,_pathParams,..._data } = {}) {
     return this.fetchApi({
-      method: "${requestMethod}",${
-    isFormData ? "\n      isFormData: true," : ""
-  }
-      _url: '${url}',${
-    requestMethod === "PUT" || requestMethod === "POST" ? "\n      _data," : ""
-  }
-      _params,${hasPathParams ? "\n      _pathParams," : ""}
+      method: "POST",
+      _url: '/projects',
+      _data,
+      _params,
     });
   }
-  `;
+  
+  getProjects({ _params,_pathParams, } = {}) {
+    return this.fetchApi({
+      method: "GET",
+      _url: '/projects',
+      _params,
+    });
+  }
+  
+  updateProject({ _params,_pathParams,..._data } = {}) {
+    return this.fetchApi({
+      method: "PUT",
+      _url: '/projects/{projectId}',
+      _data,
+      _params,
+      _pathParams,
+    });
+  }
+  
+  deleteProject({ _params,_pathParams, } = {}) {
+    return this.fetchApi({
+      method: "DELETE",
+      _url: '/projects/{projectId}',
+      _params,
+      _pathParams,
+    });
+  }
+  
+  createTemplate({ _params,_pathParams,..._data } = {}) {
+    return this.fetchApi({
+      method: "POST",
+      _url: '/projects/{projectId}/templates',
+      _data,
+      _params,
+      _pathParams,
+    });
+  }
+  
+  getTemplate({ _params,_pathParams, } = {}) {
+    return this.fetchApi({
+      method: "GET",
+      _url: '/projects/{projectId}/templates',
+      _params,
+      _pathParams,
+    });
+  }
+  
+  updateTemplate({ _params,_pathParams,..._data } = {}) {
+    return this.fetchApi({
+      method: "PUT",
+      _url: '/templates/{templateId}',
+      _data,
+      _params,
+      _pathParams,
+    });
+  }
+  
+  deleteTemplates({ _params,_pathParams, } = {}) {
+    return this.fetchApi({
+      method: "DELETE",
+      _url: '/templates/{templateId}',
+      _params,
+      _pathParams,
+    });
+  }
+  
 }
-const endString = `
-}
-`;
-export { stringOne, functionSignature, endString };
