@@ -110,7 +110,3 @@ will take current data structure and provide the previous version for one who op
 
 - make a browser tool
 - make it generate Reducers for react, handle calling them using action creator internally
-
-```
-
-```
