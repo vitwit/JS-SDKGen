@@ -99,7 +99,7 @@ async function getUser() {
       //any query paramater
     },
     _pathParams: {
-      userId: "fdkfdslfj" // this key should be same as in path i.e '/users/{userId}'
+      userId: "5ef23df923a3453edfa9ed35fe" // this key should be same as in path i.e '/users/{userId}'
     }
   });
 }
