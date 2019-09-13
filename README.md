@@ -5,7 +5,7 @@ SDKGen is Javascript API SDK Code generator, based on json file generated for ap
 ```
 npm i sdkgen -g
 
-sdkgen jsonFilePath=api-docs.json --isSwagger name=MyApp version=1.0.0
+sdkgen jsonFilePath=api-docs.json --isSwagger name=MySDK version=1.0.0 --headers
 
 ```
 
@@ -24,7 +24,7 @@ Below are parameter available for node cli while generating SDK.
 so basically no command in required if you run following command with puting 'api-docs.json' file in current directory and the json file is in required format than a 'yourSDKName.js' file will be generated in current directory.
 
 ```
-vwgen
+sdkgen
 ```
 
 any other parameter passed will be added to configs.headers which will be passed to axios instance.
@@ -102,7 +102,7 @@ async function getUser() {
       //any query paramater
     },
     _pathParams: {
-      userId: "fdkfdslfj" // this key should be same as in path i.e '/users/{userId}'
+      userId: "5ef23df923a3453edfa9ed35fe" // this key should be same as in path i.e '/users/{userId}'
     }
   });
 }
