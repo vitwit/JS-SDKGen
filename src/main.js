@@ -43,14 +43,10 @@ export async function createProject(options) {
       await access(jsFileDir, fs.constants.R_OK);
     }
   } catch (err) {
-    if (jsonFilePath === "api-docs.json") {
-      console.error(
-        "api-docs.json does not exist in root of this directory or invalid",
-        chalk.red.bold("ERROR")
-      );
-      process.exit(1);
-    }
-    console.error("%s file is invalid", chalk.red.bold("ERROR"));
+    console.error(
+      "%s does not exist or invalid or no permission to read",
+      chalk.red.bold("ERROR")
+    );
     process.exit(1);
   }
 

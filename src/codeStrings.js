@@ -11,16 +11,18 @@ import axios from "axios";
 
 export default class ${sdkName} {
   constructor( headersObj ={}) {${
-    version ? "\n      this.version =" + version : ""
-  }
+    version ? "\n    this.version =" : ""
+  }'${version}'
     this.requiredHeaders = '${requiredHeaders}';
     this.optionalHeaders = '${optionalHeaders}';
-    this.requiredHeaders.split(',').forEach(header => {
-      if (Object.keys(headersObj).indexOf(header) < 0) {
-        throw Error("All required header to initiate not passed");
-      }
-    });
     this.name = "${sdkName}";
+    if(this.requiredHeaders){
+      this.requiredHeaders.split(',').forEach(header => {
+        if (Object.keys(headersObj).indexOf(header) < 0) {
+          throw Error("All required header to initiate not passed");
+        }
+      });
+    }
     this.configs = {
       baseURL: "${baseUrl}",
       headers: {
@@ -32,22 +34,21 @@ export default class ${sdkName} {
     });
     // get authorization on every request
     instance.interceptors.request.use(
-      config => {
-        this.optionalHeaders.split(',').forEach(header => {
-          this.configs.headers[header] = this.getHeader(header);
-        });
-
-        return this.config.headers;
+      configs => {
+        if(this.optionalHeaders){
+          this.optionalHeaders.split(',').forEach(header => {
+            this.configs.headers[header] = this.getHeader(header);
+          });
+        }
+        configs.headers = this.configs.headers
+        return configs
       },
-      error => {
-        return Promise.reject(error);
-      }
+      error => Promise.reject(error)
     );
     this.axiosInstance = instance;
   }
   
   fetchApi({
-    resolve,
     isFormData,
     method,
     _data,
@@ -103,23 +104,25 @@ export default class ${sdkName} {
       }
     });
   }
+  // --utils method for sdk class
   setHeader(key, value) {
-    //Set optional header
+    // Set optional header
     this.configs.header[key] = value;
-
     window.localStorage.setItem(key, value);
   }
-
+  // eslint-disable-next-line
   getHeader(key) {
     return window.localStorage.getItem(key);
   }
 
-    setBaseUrl(url) {
-      this.configs = {
-        ...this.configs,
-        baseURL: url
-      };
-    }
+  setBaseUrl(url) {
+    this.configs = {
+      ...this.configs,
+      baseURL: url
+    };
+  }
+  // ------All api method----
+
     `;
 };
 
@@ -131,9 +134,9 @@ function functionSignature({
   isFormData
 }) {
   return `
-  ${operationName}({ _params,${hasPathParams ? "_pathParams," : ""}${
+  ${operationName}({ _params,_pathParams,${
     requestMethod === "PUT" || requestMethod === "POST" ? "..._data" : ""
-  } }) {
+  } } = {}) {
     return this.fetchApi({
       method: "${requestMethod}",${
     isFormData ? "\n      isFormData: true," : ""
