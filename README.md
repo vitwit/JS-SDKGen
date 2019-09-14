@@ -38,15 +38,15 @@ const mySDK = new MySDK({
 
 This is a tricky part in the SDK generation. As we are automating the SDK generation, we need to understand, what are all the headers we need for our APIs. For example, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY are the required configuration credentials to use AWS SDKs. In the same way, if your SDK needs any credentials that need to be sent for every API request, you need to mention them as mandatory headers in headers configuration. 
 
-Optional Headers, as name suggest, they are optional or required only for certain APIs. SDK will send those headers only after they are set. For example, if API requires, Authorization token for some APIs and not for all other APIs, it can be set as optional header. There are two functions to set & reset these Optional Headers. Optional headers are useful when we need to deal with login/logout kind of scenarios. Few methods from SDK's can be used optionally and when user logged into the system, SDK should send authorization tokens from then. For this kind of cases, you can make use of OptionalHeaders and `set` & `reset` functions.
+Optional Headers, as name suggest, they are optional or required only for certain APIs. SDK will send those headers only after they are set. For example, if API requires, Authorization token for some APIs and not for all other APIs, it can be set as optional header. There are two functions to set & clear these Optional Headers. Optional headers are useful when we need to deal with login/logout kind of scenarios. Few methods from SDK's can be used optionally and when user logged into the system, SDK should send authorization tokens from then. For this kind of cases, you can make use of OptionalHeaders and `set` & `clear` functions.
 
 ```js
 
 //to set the headers
 mySDK.setHeader('OptionalHeader1', 'OptionalHeaderValue');
 
-//to reset the headers
-mySDK.resetHeader('OptionalHeader1');
+//to clear the headers
+mySDK.clearHeader('OptionalHeader1');
 
 //to check if the header is present or not
 mySDK.getHeader('Header1');
@@ -59,7 +59,8 @@ node bin/sdkgen jsonFilePath=api-docs.json --isSwagger name=MySDK version=1.0.0 
 these configs can overridden or more configs can be passed from frontend before intiating the class as below.
 
 ```js
-myapp.setHeader("Authorization", "Bearer fkdsfakfdsfj");
+//To set header parameters, ex: Authorization with Bearer token
+myapp.setHeader("Authorization", "Bearer <yourtokenhere>");
 myapp.setBaseUrl("http://localhost/8000");
 // you can also get any header value set by you calling getHeader
 myapp.getHeader("Authorization");

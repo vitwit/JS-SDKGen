@@ -120,8 +120,8 @@ export default class ${sdkName} {
   }
   
   // --utils method for sdk class
-  resetHeader(key) {
-    // Reset optional header
+  clearHeader(key) {
+    // Clear optional header
     this.configs.header[key] = '';
     window.localStorage.removeItem(key);
   }
@@ -129,7 +129,7 @@ export default class ${sdkName} {
   setBaseUrl(url) {
     //Set BaseUrl
     //Helps when we require to change the base url, without modifying the sdk code
-    
+
     this.configs = {
       ...this.configs,
       baseURL: url
