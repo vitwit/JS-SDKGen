@@ -1,6 +1,6 @@
 # SDKGen
 
-SDKGen is Javascript API SDK Code generator, based on json file generated for api docs by Swagger or Goland or optionally your own json file with any shape with transform function. It just requires a apidoc definition (swagger/godac style supported now) and it generates the Javascript SDK for you. It can run in both browser(a tool can be made) and node.
+SDKGen is Javascript API SDK Code generator, based on json file generated for api docs by Swagger or Goland or optionally your own json file with any shape with transform function. It just requires a apidoc definition (swagger/godac style supported now) and it generates the Javascript SDK for you. Thus eliminate the work of writing your own SDK. It can run in both browser(a tool can be made) and node.
 
 clone the repo
 
@@ -8,7 +8,7 @@ clone the repo
 git clone https://github.com/vitwit/SDKGen.git
 cd SDKGen
 npm install
-node bin/sdkgen jsonFilePath=api-docs.json --isSwagger/--isGo name=MySDK version=1.0.0 baseUrl=http://google.com --headers accountId=true authorization
+node bin/sdkgen jsonFilePath=api-docs.json --isSwagger/--isGo name=MySDK version=1.0.0 baseUrl=http://vitwit.com/api --headers accountId=true authorization=false
 ```
 
 Below are parameter available for node cli while generating SDK.
@@ -22,19 +22,52 @@ Below are parameter available for node cli while generating SDK.
 | `baseUrl`                                             | base url of your app, will be passed axios instance                                                                                           | required                                                                                                         |
 | `name`                                                | it will be name of generated sdk class                                                                                                        | optional                                                                                                         |
 | `version`                                             | version of sdk                                                                                                                                | optional                                                                                                         |
-| `--headers anyoptionalheader anyrequriredheader=true` | after `--headers` flag every will be considered header, if passed true those will be required to pass when initiate the sdk class on frontend |
+| `--headers OptionalHeader1=false MandatoryHeader1=true` | after `--headers` flag every field will be considered as a header, if passed true those will be required to pass when initiate the sdk class on frontend |
 
-any other parameter passed will be added to configs.headers which will be passed to axios instance.
+any other parameter passed will be added to configs.headers which will be passed to axios instance. All the headers will be used as default headers for every request. 
 
+```js //usage
+const mySDK = new MySDK({
+  MandatoryHeader1: "Header1Value",
+  MandatoryHeader2: "Header2Value"
+});
+
+```
+
+### Mandatory Headers & Optional Headers?
+
+This is a tricky part in the SDK generation. As we are automating the SDK generation, we need to understand, what are all the headers we need for our APIs. For example, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY are the required configuration credentials to use AWS SDKs. In the same way, if your SDK needs any credentials that need to be sent for every API request, you need to mention them as mandatory headers in headers configuration. 
+
+Optional Headers, as name suggest, they are optional or required only for certain APIs. SDK will send those headers only after they are set. For example, if API requires, Authorization token for some APIs and not for all other APIs, it can be set as optional header. There are two functions to set & clear these Optional Headers. Optional headers are useful when we need to deal with login/logout kind of scenarios. Few methods from SDK's can be used optionally and when user logged into the system, SDK should send authorization tokens from then. For this kind of cases, you can make use of OptionalHeaders and `set` & `clear` functions.
+
+```js
+
+//to set the headers
+mySDK.setHeader('OptionalHeader1', 'OptionalHeaderValue');
+
+//to clear the headers
+mySDK.clearHeader('OptionalHeader1');
+
+//to check if the header is present or not
+mySDK.getHeader('Header1');
+```
+
+Example cli parameters to set MandatoryHeader1, MandatoryHeader2 as required headers, you just need to keep `true` after the header name. If the variable is set to `false` or left blank, it will be considered as Optional Header by the program.
+```js
+node bin/sdkgen jsonFilePath=api-docs.json --isSwagger name=MySDK version=1.0.0 baseUrl=http://vitwit.com/api  --headers MandatoryHeader1=true MandatoryHeader2=true OptionalHeader1=false OptionalHeader2
+```
 these configs can overridden or more configs can be passed from frontend before intiating the class as below.
 
 ```js
-const myapp = new SDKName();
-myapp.setHeader("Authorization", "Bearer fkdsfakfdsfj");
-myapp.setBaseUrl("http://localhost/8000");
+//To set header parameters, ex: Authorization with Bearer token
+mySDK.setHeader("Authorization", "Bearer <yourtokenhere>");
+
+//override existing config, i.e., baseUrl
+mySDK.setBaseUrl("http://api.vitwit.com/v2");
+
 // you can also get any header value set by you calling getHeader
-myapp.getHeader("Authorization");
-export { myapp };
+mySDK.getHeader("Authorization");
+
 ```
 
 The json file mentioned above should have following data structure.(make sure you write `operationId` in your node backend inline comments for swagger generated API docs)

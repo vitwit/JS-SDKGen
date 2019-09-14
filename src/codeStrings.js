@@ -105,18 +105,32 @@ export default class ${sdkName} {
       }
     });
   }
+
   // --utils method for sdk class
   setHeader(key, value) {
     // Set optional header
     this.configs.header[key] = value;
     window.localStorage.setItem(key, value);
   }
+
   // eslint-disable-next-line
   getHeader(key) {
+    //Get header method
+    //Helps to check if the required header is present or not
     return window.localStorage.getItem(key);
+  }
+  
+  // --utils method for sdk class
+  clearHeader(key) {
+    // Clear optional header
+    this.configs.header[key] = '';
+    window.localStorage.removeItem(key);
   }
 
   setBaseUrl(url) {
+    //Set BaseUrl
+    //Helps when we require to change the base url, without modifying the sdk code
+
     this.configs = {
       ...this.configs,
       baseURL: url

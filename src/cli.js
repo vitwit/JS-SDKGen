@@ -24,6 +24,7 @@ function parseArgumentsIntoOptions(rawArgs) {
         ? true
         : index < argArr.indexOf("--headers") && !arg.includes("--")
     );
+
     // get required fields
     headerParams.forEach((arg, index) => {
       const splitted = headerParams[index].split("=");
@@ -31,8 +32,10 @@ function parseArgumentsIntoOptions(rawArgs) {
         requiredHeaders.push(splitted[0]);
       }
     });
+
     // keep only params remove value
     headerParams = headerParams.map(arg => arg.split("=")[0]);
+    
     optionalHeaders = headerParams.filter(
       arg => requiredHeaders.indexOf(arg) < 0
     );
