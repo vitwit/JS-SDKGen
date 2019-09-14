@@ -60,11 +60,14 @@ these configs can overridden or more configs can be passed from frontend before 
 
 ```js
 //To set header parameters, ex: Authorization with Bearer token
-myapp.setHeader("Authorization", "Bearer <yourtokenhere>");
-myapp.setBaseUrl("http://localhost/8000");
+mySDK.setHeader("Authorization", "Bearer <yourtokenhere>");
+
+//override existing config, i.e., baseUrl
+mySDK.setBaseUrl("http://api.vitwit.com/v2");
+
 // you can also get any header value set by you calling getHeader
-myapp.getHeader("Authorization");
-export { myapp };
+mySDK.getHeader("Authorization");
+
 ```
 
 The json file mentioned above should have following data structure.(make sure you write `operationId` in your node backend inline comments for swagger generated API docs)
