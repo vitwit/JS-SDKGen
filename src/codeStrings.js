@@ -41,6 +41,7 @@ export default class ${sdkName} {
           });
         }
         configs.headers = this.configs.headers
+        configs.baseURL = this.configs.baseURL
         return configs
       },
       error => Promise.reject(error)
