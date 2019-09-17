@@ -27,13 +27,13 @@ export async function createProject(options) {
 
   const jsonFilePath = options.jsonFilePath;
   const jsFilePath = options.jsFilePath;
-  const jsonFileDir = path.resolve(jsonFilePath);
+  const jsonFileDir = path.resolve(process.cwd(), jsonFilePath);
 
   options.jsonFilePath = jsonFileDir;
   let jsFileDir;
 
   if (options.jsFilePath) {
-    jsFileDir = path.resolve(jsFilePath);
+    jsFileDir = path.resolve(process.cwd(), jsonFilePath);
   }
   options.jsFilePath = jsFileDir;
 

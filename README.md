@@ -1,14 +1,12 @@
-# SDKGen
+# Js-SDKGen
 
-SDKGen is JavaScript API SDK Code generator, based on json file generated for api docs by Swagger or Goland or optionally your own json file with any shape with transform function. It just requires a apidoc definition (swagger/godac style supported now) and it generates the JavaScript SDK for you. Thus eliminate the work of writing your own SDK. It can run in both browser(a tool can be made) and node.
+Js-SDKGen is JavaScript API SDK Code generator, based on json file generated for api docs by Swagger or Goland or optionally your own json file with any shape with transform function. It just requires a apidoc definition (swagger/godac style supported now) and it generates the JavaScript SDK for you. Thus eliminate the work of writing your own SDK. It can run in both browser(a tool can be made) and node.
 
 clone the repo
 
 ```sh
-git clone https://github.com/vitwit/SDKGen.git
-cd SDKGen
-npm install
-node bin/sdkgen jsonFilePath=api-docs.json --isSwagger/--isGo name=MySDK version=1.0.0 baseUrl=http://vitwit.com/api --headers accountId=true authorization=false
+npm install -g js-sdkgen
+js-sdkgen jsonFilePath=api-docs.json --isSwagger/--isGo name=MySDK version=1.0.0 baseUrl=http://vitwit.com/api --headers accountId=true authorization=false
 ```
 
 Below are parameter available for node cli while generating SDK.
@@ -53,7 +51,7 @@ mySDK.getHeader("Header1");
 Example cli parameters to set MandatoryHeader1, MandatoryHeader2 as required headers, you just need to keep `true` after the header name. If the variable is set to `false` or left blank, it will be considered as Optional Header by the program.
 
 ```js
-node bin/sdkgen jsonFilePath=api-docs.json --isSwagger name=MySDK version=1.0.0 baseUrl=http://vitwit.com/api  --headers MandatoryHeader1=true MandatoryHeader2=true OptionalHeader1=false OptionalHeader2
+js-sdkgen jsonFilePath=api-docs.json --isSwagger name=MySDK version=1.0.0 baseUrl=http://vitwit.com/api  --headers MandatoryHeader1=true MandatoryHeader2=true OptionalHeader1=false OptionalHeader2
 ```
 
 these configs can overridden or more configs can be passed from frontend before intiating the class as below.
