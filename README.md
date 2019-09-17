@@ -1,6 +1,6 @@
-# Js-SDKGen
+# JS-SDKGen
 
-Js-SDKGen is JavaScript API SDK Code generator, based on json file generated for api docs by Swagger or Goland or optionally your own json file with any shape with transform function. It just requires a apidoc definition (swagger/godac style supported now) and it generates the JavaScript SDK for you. Thus eliminate the work of writing your own SDK. It can run in both browser(a tool can be made) and node.
+JS-SDKGen is JavaScript API SDK Code generator, based on json file generated for api docs by Swagger or Goland or optionally your own json file with any shape with transform function. It just requires a apidoc definition (swagger/godac style supported now) and it generates the JavaScript SDK for you. Thus eliminate the work of writing your own SDK. It can run in both browser(a tool can be made) and node.
 
 clone the repo
 
@@ -101,9 +101,9 @@ This JavaScript file can name export these two function.
 any where in your application you can call sdk methods like this, provide it body data obj while calling, you can pass formdata same as this and it will internally will do `(new FormData).append(key,value)` wherever needed.
 
 ```js
-import myApp from "./path-of-file";
+import mySDK from "./path-of-file";
 async function handleSignIn(name, password) {
-  const { data, error } = await my.signIn({
+  const { data, error } = await mySDK.signIn({
     name,
     password
   });

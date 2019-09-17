@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "JavaScript SDK generator from api doc's json file, go-docs and swagger support by default,or any json file with given shape.",
   "main": "src/index.js",
-  "bin": "bin/sdkgen",
+  "bin": {
+    "sdkgen": "bin/sdkgen"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -17,11 +19,7 @@
   ],
   "author": "Vitwit",
   "contributors": [
-    {
-      "name": "Yash Rathore",
-      "email": "yash@vitwit.com",
-      "url": "https://github.com/vitwit/SDKGen.git"
-    }
+    "Yash Rathore <yash@vitwit.com> (https://github.com/vitwit/SDKGen.git)"
   ],
   "license": "MIT",
   "dependencies": {
@@ -32,5 +30,16 @@
   "files": [
     "bin/",
     "src/"
-  ]
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitwit/SDKGen.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vitwit/SDKGen/issues"
+  },
+  "homepage": "https://github.com/vitwit/SDKGen#readme"
 }
