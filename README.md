@@ -103,9 +103,9 @@ This JavaScript file can name export these two function.
 any where in your application you can call sdk methods like this, provide it body data obj while calling, you can pass formdata same as this and it will internally will do `(new FormData).append(key,value)` wherever needed.
 
 ```js
-import myApp from "./path-of-file";
+import mySDK from "./path-of-file";
 async function handleSignIn(name, password) {
-  const { data, error } = await my.signIn({
+  const { data, error } = await mySDK.signIn({
     name,
     password
   });
