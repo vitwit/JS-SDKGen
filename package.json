@@ -1,5 +1,5 @@
 {
-  "name": "@vitwit/sdkgen",
+  "name": "js-sdkgen",
   "version": "1.0.0",
   "description": "JavaScript SDK generator from api doc's json file, go-docs and swagger support by default,or any json file with given shape.",
   "main": "src/index.js",
@@ -14,7 +14,8 @@
     "codegen",
     "sdk",
     "vitwit",
-    "sdkgen"
+    "js-sdkgen",
+    "JavaScript"
   ],
   "author": "Vitwit",
   "contributors": [
