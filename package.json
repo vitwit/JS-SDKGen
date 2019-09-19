@@ -10,12 +10,15 @@
     "access": "public"
   },
   "keywords": [
+    "generator",
+    "code",
+    "sdk generator",
+    "js-sdkgen",
+    "JavaScript",
     "cli",
     "codegen",
     "sdk",
-    "vitwit",
-    "js-sdkgen",
-    "JavaScript"
+    "vitwit"
   ],
   "author": "Vitwit",
   "contributors": [
