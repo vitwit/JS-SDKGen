@@ -1,6 +1,6 @@
 # JS-SDKGen
 
-JS-SDKGen is JavaScript API SDK Code generator, based on json file generated for api docs by Swagger or Goland or optionally your own json file with any shape with transform function. It just requires a apidoc definition (swagger/godac style supported now) and it generates the JavaScript SDK for you. Thus eliminate the work of writing your own SDK. It can run in both browser(a tool can be made) and node.
+JS-SDKGen is JavaScript API SDK Code generator, based on json file generated for api docs by Swagger or apidocjs or optionally your own json file with any shape with transform function. It just requires a apidoc definition (swagger and apidocjs genenrated api docs aslo supported now) and it generates the JavaScript SDK for you. Thus eliminate the work of writing your own SDK. It can run in both browser(a tool can be made) and node.
 
 clone the repo
 
@@ -11,15 +11,15 @@ js-sdkgen --json-file=api-docs.json name=MySDK --version=1.0.0 base-url=http://v
 
 Below are parameter available for node cli while generating SDK.
 
-| param               | use                                                                                          | optional or required                                                                                             |
-| ------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `--json-file`       | path of json                                                                                 | required (if not provided will look for 'api-docs.json' file in current directory)                               |
-| `--js-file`         | path of a js file which named exports two function `transformJson` and `transformOperations` | not required if json is already in below mentioned format or no operation's response data need to be transformed |  |
-| `--base-url`        | base url of your app, will be passed axios instance                                          | required                                                                                                         |
-| `--name`            | it will be name of generated sdk class                                                       | optional                                                                                                         |
-| `--version`         | version of sdk                                                                               | optional                                                                                                         |
-| `--requiredHeaders` | requirdHeaders params will berequired to pass when initiate the sdk class on frontend        |
-| `--optionalHeaders` |                                                                                              |
+| param               | alias | usage                                                                                        | optional or required                                                                                             |
+| ------------------- | ----- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `--json-file`       | `-f`  | path of json                                                                                 | required (if not provided will look for 'api-docs.json' file in current directory)                               |
+| `--js-file`         | `-j`  | path of a js file which named exports two function `transformJson` and `transformOperations` | not required if json is already in below mentioned format or no operation's response data need to be transformed |  |
+| `--base-url`        | `-b`  | base url of your app, will be passed axios instance                                          | required                                                                                                         |
+| `--name`            | `-n`  | it will be name of generated sdk class                                                       | optional                                                                                                         |
+| `--version`         | `-v`  | version of sdk                                                                               | optional                                                                                                         |
+| `--requiredHeaders` | `-r`  | requirdHeaders params will berequired to pass when initiate the sdk class on frontend        |
+| `--optionalHeaders` | `-o`  |                                                                                              |
 
 any other parameter passed will be added to configs.headers which will be passed to axios instance. All the headers will be used as default headers for every request.
 
