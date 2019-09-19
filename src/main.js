@@ -6,18 +6,8 @@ import { promisify } from "util";
 const access = promisify(fs.access);
 const { generateSDK } = require("./codgen.js");
 
-async function generateJs({
-  flags,
-  requiredHeaders = [],
-  optionalHeaders = [],
-  ...options
-}) {
-  generateSDK({
-    ...flags,
-    ...options,
-    optionalHeaders,
-    requiredHeaders
-  });
+async function generateJs(a) {
+  generateSDK(a);
 }
 
 export async function createProject(options) {
@@ -25,22 +15,19 @@ export async function createProject(options) {
     ...options
   };
 
-  const jsonFilePath = options.jsonFilePath;
-  const jsFilePath = options.jsFilePath;
-  const jsonFileDir = path.resolve(process.cwd(), jsonFilePath);
+  const jsonFile = options.jsonFile;
+  const jsonFileDir = path.resolve(process.cwd(), jsonFile);
+  options.jsonFile = jsonFileDir;
 
-  options.jsonFilePath = jsonFileDir;
-  let jsFileDir;
-
-  if (options.jsFilePath) {
-    jsFileDir = path.resolve(process.cwd(), jsonFilePath);
+  const jsFile = options.jsFile;
+  if (jsFile) {
+    const jsFileDir = path.resolve(process.cwd(), jsFile);
+    options.jsFile = jsFileDir;
   }
-  options.jsFilePath = jsFileDir;
-
   try {
     await access(jsonFileDir, fs.constants.R_OK);
-    if (jsFileDir) {
-      await access(jsFileDir, fs.constants.R_OK);
+    if (jsFile) {
+      await access(jsFile, fs.constants.R_OK);
     }
   } catch (err) {
     console.error(
@@ -64,9 +51,9 @@ export async function createProject(options) {
 
   await tasks.run();
   console.log(
-    `%s ${
-      options.name ? options.name + ".js" : ""
-    } file generated successfully`,
+    `
+    %s sdk folder generated successfully with required files
+    `,
     chalk.green.bold("DONE")
   );
   return true;
