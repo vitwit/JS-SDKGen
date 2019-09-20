@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import { isArray } from "util";
 
 export function toCamelCase(s = "") {
   return s
@@ -52,4 +53,18 @@ export const printManPage = () => {
   -h: --help
   `;
   console.log(manPage);
+};
+export const getDefinitionKey = a =>
+  (a["$ref"] && a["$ref"] && a["$ref"].split("#/definitions/")[1]) ||
+  (a &&
+    a.items &&
+    a.items["$ref"] &&
+    a.items["$ref"].split("#/definitions/")[1]);
+
+export const removeKeys = (obj, ...a) => {
+  let abc = {};
+  Object.keys(obj).forEach(key =>
+    (a || []).includes(key) ? undefined : (abc[key] = obj[key])
+  );
+  return abc;
 };
