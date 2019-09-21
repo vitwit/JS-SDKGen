@@ -1,11 +1,22 @@
 import chalk from "chalk";
 import fs from "fs";
-import { stringOne, functionSignature, endString } from "./codeStrings";
+import {
+  stringOne,
+  functionSignature,
+  endString,
+  markdownStartString,
+  appendModalLink,
+  markdownCodeBlockEnd,
+  operationMarkdownEnd,
+  responseMarkdown
+} from "./codeStrings";
 import {
   extractPathParams,
   toCamelCase,
   toTitleCase,
-  notEmptyObj
+  notEmptyObj,
+  getDefinitionKey,
+  removeKeys
 } from "./utils";
 import cp from "cp";
 
@@ -16,6 +27,16 @@ const isGoJson = json => {
 const isSwaggerJson = json => {
   return json && json.swagger;
 };
+const stringifyObj = obj =>
+  Object.keys(obj)
+    .map(key => {
+      return `${key}:${
+        typeof obj[key] !== "object" ? obj[key] : JSON.stringify(obj[key])
+      }`;
+    })
+    .join()
+    .replace(/:/g, "-");
+
 export function generateSDK({
   jsonFile,
   jsFile,
@@ -43,6 +64,7 @@ export function generateSDK({
   let isSwaggerGenerated = isSwaggerJson(_jsonFile);
   let isGoGenerated = isGoJson(_jsonFile);
   const storeJsCodeInThisArr = [];
+  let storeMarkdown = [];
 
   storeJsCodeInThisArr.push(
     stringOne({
@@ -84,6 +106,132 @@ export function generateSDK({
           const operationName = methodData.operationId;
           const consumes = methodData.consumes || [];
           const isFormData = consumes.includes("multipart/form-data");
+          const thisOperationBodyParamsModals = [];
+          const thisOperationResponesModals = [];
+
+          const bodyParamsDocGenerators = params => {
+            // lets group body/formData params,path params and query params together
+            //
+            const body = params.filter(param =>
+              ["body", "formData"].includes(param.in) ? param : false
+            );
+            const pathParams = params.filter(param => param.in === "path");
+            const qparams = params.filter(param => param.in === "query");
+            //
+            storeMarkdown.push(markdownStartString({ operationName, name }));
+
+            // can't destruct "in" params bcoz a reserved keyword;
+            body.forEach(({ name, schema, type, ...other }) => {
+              // if name is body indicates it has a params for which a modal exist in definations
+              //  so we just comment meta info here and link to that modal below example code
+
+              if (name === "body") {
+                const definition =
+                  _jsonFile.definitions[getDefinitionKey(schema)];
+                storeMarkdown.push(
+                  `  /** ${getDefinitionKey(schema)} modal,${
+                    schema.type ? "type - " + schema.type + "," : ""
+                  } ${stringifyObj(removeKeys(other, "in"))} */`
+                );
+                thisOperationBodyParamsModals.push(getDefinitionKey(schema));
+              } else {
+                // else just name: type of param, stringify other info and comment // if there is a object in other info just JSON.stringify
+                storeMarkdown.push(
+                  ` ${name}:${type}, /** ${stringifyObj({
+                    ...removeKeys(other, "in")
+                  })} */\n`
+                );
+              }
+            });
+            if (pathParams.length) {
+              storeMarkdown.push(`  _pathParams: {\n`);
+              pathParams.forEach(({ name, type, ...other }) => {
+                storeMarkdown.push(
+                  `   ${name}:${type}, /** ${stringifyObj({
+                    ...removeKeys(other, "in")
+                  })} */ \n`
+                );
+              });
+              storeMarkdown.push(`  }`);
+            }
+            if (qparams.length) {
+              storeMarkdown.push(`  _params: {\n`);
+              qparams.forEach(({ name, type, ...other }) => {
+                storeMarkdown.push(
+                  `   ${name}:${type}, /** ${stringifyObj({
+                    ...removeKeys(other, "in")
+                  })} */ \n`
+                );
+              });
+              storeMarkdown.push(`  }`);
+            }
+            storeMarkdown.push(markdownCodeBlockEnd());
+          };
+          const responsesDocsGenerators = responses => {
+            const twoXX = {};
+            const fourXX = {};
+            const fiveXX = {};
+            const defaultResponse = {};
+            Object.keys(responses).forEach(key => {
+              if (responses[key] && responses[key].schema) {
+                thisOperationResponesModals.push(
+                  getDefinitionKey(responses[key].schema)
+                );
+              }
+              if (key.includes("20")) {
+                twoXX[key] = responses[key];
+              }
+              if (key.includes("40")) {
+                fourXX[key] = responses[key];
+              }
+              if (key.includes("50")) {
+                fiveXX[key] = responses[key];
+              }
+              if (key.includes("default")) {
+                defaultResponse[key] = responses[key];
+              }
+            });
+            storeMarkdown.push(
+              `\n**Responses**\n
+              `
+            );
+            if (Object.keys(defaultResponse).length) {
+              storeMarkdown.push(
+                responseMarkdown({ resCode: "Default", json: defaultResponse })
+              );
+            }
+            if (Object.keys(twoXX).length) {
+              storeMarkdown.push(
+                responseMarkdown({ resCode: "Success 2XX", json: twoXX })
+              );
+            }
+            if (Object.keys(fourXX).length) {
+              storeMarkdown.push(
+                responseMarkdown({ resCode: "Error 4XX", json: fourXX })
+              );
+            }
+            if (Object.keys(fiveXX).length) {
+              storeMarkdown.push(
+                responseMarkdown({ resCode: "Error 5XX", json: fivXX })
+              );
+            }
+          };
+
+          bodyParamsDocGenerators(methodData.parameters);
+          responsesDocsGenerators(methodData.responses);
+          const thisOperationsModals = [
+            ...thisOperationBodyParamsModals,
+            ...thisOperationResponesModals
+          ];
+          if (thisOperationsModals.length) {
+            storeMarkdown.push(`\n###### `);
+            thisOperationsModals.forEach(a =>
+              storeMarkdown.push(appendModalLink(a))
+            );
+          }
+
+          storeMarkdown.push(operationMarkdownEnd());
+
           const operationFunction = functionSignature({
             hasPathParams: extractPathParams(url).length,
             operationName,
@@ -133,6 +281,23 @@ export function generateSDK({
       process.exit(1);
     }
   }
+
+  if (isSwaggerGenerated) {
+    const generateModalsReadeMe = json => {
+      const definitions = json.definitions;
+      storeMarkdown.push(`\n# Modal Definations\n`);
+      Object.keys(definitions).forEach(key => {
+        storeMarkdown.push(
+          `\n ### ${key}-modal\n \`\`\`json\n${JSON.stringify(
+            definitions[key],
+            null,
+            2
+          )}\n\`\`\`\n`
+        );
+      });
+    };
+    generateModalsReadeMe(_jsonFile);
+  }
   storeJsCodeInThisArr.push(endString);
   const dir = "sdk";
   if (!fs.existsSync(dir)) {
@@ -143,6 +308,9 @@ export function generateSDK({
       if (err) throw err;
     });
   }
+  fs.writeFile("sdk/README.md", storeMarkdown.join(""), err => {
+    if (err) throw err;
+  });
 
   fs.writeFile("sdk/" + name + ".js", storeJsCodeInThisArr.join(""), err => {
     if (err) throw err;
