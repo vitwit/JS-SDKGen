@@ -4,11 +4,16 @@ const stringOne = ({
   version,
   baseUrl,
   requiredHeaders,
-  optionalHeaders
+  optionalHeaders,
+  transformOperations
 }) => {
   return `
 import axios from "axios";
-
+${
+  transformOperations
+    ? "import { transformOperations } from './transformOperations'"
+    : ""
+}
 export default class ${sdkName} {
   constructor( headersObj ={}) {${
     version ? "\n    this.version =" : ""
@@ -55,6 +60,7 @@ export default class ${sdkName} {
     _data,
     _url,
     _params = {},
+    transformResponse,
     _pathParams = [],
     headerConfigs = {}
   }) {
@@ -82,6 +88,7 @@ export default class ${sdkName} {
           url,
           method,
           data,
+          ...(transformResponse ? { transformResponse } : {}),
           ...(Object.keys(_params).length ? { params: _params } : {}),
           ...(isFormData
             ? {
@@ -141,9 +148,12 @@ export default class ${sdkName} {
     `;
 };
 
+const getTransformResString = key =>
+  `\n      transformResponse:transformOperations['${key}'],`;
 function functionSignature({
   hasPathParams,
   operationName,
+  transformResponse,
   url,
   requestMethod,
   isFormData
@@ -159,7 +169,9 @@ function functionSignature({
       _url: '${url}',${
     requestMethod === "PUT" || requestMethod === "POST" ? "\n      _data," : ""
   }
-      _params,${hasPathParams ? "\n      _pathParams," : ""}
+      _params,${hasPathParams ? "\n      _pathParams," : ""}${
+    transformResponse ? getTransformResString(operationName) : ""
+  }
     });
   }
   `;

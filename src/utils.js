@@ -1,3 +1,5 @@
+import chalk from "chalk";
+
 export function toCamelCase(s = "") {
   return s
     .replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
@@ -15,3 +17,39 @@ export function extractPathParams(path) {
   return (paramsArr || []).map(param => param.replace(/{|}/g, "")) || [];
 }
 export const notEmptyObj = obj => Object.keys(obj).length;
+
+export const printManPage = () => {
+  console.log(
+    `
+    
+    ${chalk.gray.bold("Flags")}             ${chalk.gray.bold("Usage")}
+    `
+  );
+  const manPage = `  --jsonFile:         String, --jsonFile filename.json or --jsonFile=filename.json or --jsonFile ../Downloads/filename.json
+
+  --jsFile:           String   
+  
+  --version:          String
+  
+  --name:             String
+  
+  --baseUrl:          String
+  
+  --requiredHeaders: [String] --requiredHeaders token,key,account or --requiredHeaders=token,key,account
+  
+  --optionalHeaders: [String]
+  
+  --help: Boolean
+
+ ${chalk.gray.bold("or you can you use the following aliases")}
+
+  -f: --jsonFile
+  -j: --jsFile
+  -v: --version
+  -b: --baseUrl
+  -o: --optionalHeaders
+  -r: --requiredHeaders
+  -h: --help
+  `;
+  console.log(manPage);
+};
