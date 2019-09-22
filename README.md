@@ -2,11 +2,11 @@
 
 JS-SDKGen is JavaScript API SDK Code generator, based on json file generated for api docs by Swagger or apidocjs or optionally your own json file with any shape with transform function. It just requires a apidoc definition (swagger and apidocjs genenrated api docs aslo supported now) and it generates the JavaScript SDK for you. Thus eliminate the work of writing your own SDK. It can run in both browser(a tool can be made) and node.
 
-clone the repo
+## Installation
 
 ```sh
 npm install -g js-sdkgen
-js-sdkgen --json-file=api-docs.json name=MySDK --version=1.0.0 base-url=http://vitwit.com/api --requiredHeaders accoundId,key --optionalHeaders name
+js-sdkgen --json-file=api-docs.json name=MySDK --version=1.0.0 base-url=https://vitwit.com/api --requiredHeaders accoundId,key --optionalHeaders name
 ```
 
 Below are parameter available for node cli while generating SDK.
@@ -50,7 +50,7 @@ mySDK.getHeader("Header1");
 Example cli parameters to set MandatoryHeader1, MandatoryHeader2 as required headers, you just need to keep `true` after the header name. If the variable is set to `false` or left blank, it will be considered as Optional Header by the program.
 
 ```sh
-js-sdkgen --json-file api-docs.json --name=MySDK --version=1.0.0 --base-url=http://vitwit.com/api  --requiredHeaders a,b,c --optionalHeaders d,e,f
+js-sdkgen --json-file api-docs.json --name=MySDK --version=1.0.0 --base-url=https://vitwit.com/api  --requiredHeaders a,b,c --optionalHeaders d,e,f
 ```
 
 these configs can overridden or more configs can be passed from frontend before intiating the class as below.
@@ -60,7 +60,7 @@ these configs can overridden or more configs can be passed from frontend before 
 mySDK.setHeader("Authorization", "Bearer <yourtokenhere>");
 
 //override existing config, i.e., baseUrl
-mySDK.setBaseUrl("http://api.vitwit.com/v2");
+mySDK.setBaseUrl("https://api.vitwit.com/v2");
 
 // you can also get any header value set by you calling getHeader
 mySDK.getHeader("Authorization");
@@ -100,7 +100,6 @@ This JavaScript file can name export these two function.
 any where in your application you can call sdk methods like this, provide it body data obj while calling, you can pass formdata same as this and it will internally will do `(new FormData).append(key,value)` wherever needed.
 
 ```js
-import mySDK from "./path-of-file";
 async function handleSignIn(name, password) {
   const { data, error } = await mySDK.signIn({
     name,
@@ -135,7 +134,7 @@ You don't have to deal with calling API's, managing API constants, handling erro
 On top of that if backend change data structure of response, they can provide a object `transformOperations` with key as operationName functions which
 will take current data structure and provide the previous version for one who opt to use old version.
 
-### What Next
+### TODO
 
-- make a browser tool
-- make it generate Reducers for react, handle calling them using action creator internally
+[ ] Standardize SDK Usage Guide generation
+[ ] Testscripts
