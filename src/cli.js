@@ -11,6 +11,7 @@ import { printManPage } from "./utils";
  */
 function parseArgumentsIntoOptions(rawArgs) {
   let args;
+
   try {
     args = arg({
       // Types
@@ -39,6 +40,7 @@ function parseArgumentsIntoOptions(rawArgs) {
       `,
         chalk.red.bold("ERROR")
       );
+
       process.exit(1);
     } else {
       throw err;
@@ -47,6 +49,7 @@ function parseArgumentsIntoOptions(rawArgs) {
 
   if (args["--help"]) {
     printManPage();
+
     process.exit(1);
   }
 
@@ -72,7 +75,9 @@ export async function cli(args) {
 
   if (!options.jsonFile) {
     console.error("%s --json-file is required", chalk.red.bold("ERROR"));
+
     process.exit(1);
   }
+
   await createProject(options);
 }

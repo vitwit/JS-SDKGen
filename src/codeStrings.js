@@ -172,6 +172,7 @@ export default class ${sdkName} {
 
 const getTransformResString = key =>
   `\n      transformResponse:transformOperations['${key}'],`;
+
 function functionSignature({
   hasPathParams,
   operationName,
@@ -198,9 +199,11 @@ function functionSignature({
   }
   `;
 }
+
 const endString = `
 }
 `;
+
 export { stringOne, functionSignature, endString };
 
 //MARKDOWN
@@ -216,12 +219,16 @@ ${operationName}
  \`\`\`js
  const  { data, error } = await name.${operationName}({
 `;
+
 export const markdownCodeBlockEnd = () => `
 })
 \`\`\``;
+
 export const appendModalLink = modal => ` [${modal}](###${modal}-modal) `;
+
 export const operationMarkdownEnd = () => `
 </details>
 `;
+
 export const responseMarkdown = ({ resCode, json }) =>
   `\n> ${resCode}\n\`\`\`json\n${JSON.stringify(json, null, 2)}\n\`\`\`\n`;

@@ -13,12 +13,24 @@
             {
                 "blankLine": "always",
                 "prev": "*",
-                "next": "return"
+                "next": "*"
+            },
+            {
+                "blankLine": "never",
+                "prev": "import",
+                "next": "import"
             }
         ],
         "quotes": [
             "error",
             "double"
-        ]
+        ],
+        "curly": [
+            "error",
+            "all"
+        ],
+        "no-else-return": "error",
+        "no-empty-function": "error",
+        "no-multi-spaces": "error"
     }
 }
