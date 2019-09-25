@@ -1,17 +1,3 @@
-
-/**
- *
- *
- * @param {*} {
- *   sdkName,
- *   version,
- *   baseUrl,
- *   requiredHeaders,
- *   optionalHeaders,
- *   transformOperations
- * }
- * @returns
- */
 const stringOne = ({
   sdkName,
   version,
@@ -23,8 +9,8 @@ const stringOne = ({
   return `
 import axios from "axios";
 ${
-    transformOperations ?
-      "import { transformOperations } from './transformOperations'"
+    transformOperations
+      ? "import { transformOperations } from './transformOperations'"
       : ""
     }
 
@@ -206,7 +192,7 @@ const endString = `
 
 export { stringOne, functionSignature, endString };
 
-//MARKDOWN
+// MARKDOWN
 export const markdownStartString = ({ name, operationName }) => `
 <details>
 
