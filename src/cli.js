@@ -5,6 +5,7 @@ import { printManPage } from "./utils";
 
 function parseArgumentsIntoOptions(rawArgs) {
   let args;
+
   try {
     args = arg({
       // Types
@@ -18,13 +19,12 @@ function parseArgumentsIntoOptions(rawArgs) {
       "--help": Boolean,
       // Aliases
       "-f": "--json-file",
-      "-f": "--js-file",
+      "-j": "--js-file",
       "-v": "--version",
       "-b": "--base-url",
       "-h": "--help",
       "-o": "--optional-headers",
-      "-r": "--required-headers",
-      "-h": "--help"
+      "-r": "--required-headers"
     });
   } catch (err) {
     if (err.code === "ARG_UNKNOWN_OPTION") {
@@ -34,6 +34,7 @@ function parseArgumentsIntoOptions(rawArgs) {
       `,
         chalk.red.bold("ERROR")
       );
+
       process.exit(1);
     } else {
       throw err;
@@ -42,6 +43,7 @@ function parseArgumentsIntoOptions(rawArgs) {
 
   if (args["--help"]) {
     printManPage();
+
     process.exit(1);
   }
 
@@ -57,11 +59,13 @@ function parseArgumentsIntoOptions(rawArgs) {
 }
 
 export async function cli(args) {
-  let options = parseArgumentsIntoOptions(args);
+  const options = parseArgumentsIntoOptions(args);
 
   if (!options.jsonFile) {
     console.error("%s --json-file is required", chalk.red.bold("ERROR"));
+
     process.exit(1);
   }
+
   await createProject(options);
 }

@@ -1,5 +1,3 @@
-import chalk from "chalk";
-import { notEmptyObj } from "./utils";
 const stringOne = ({
   sdkName,
   version,
@@ -151,6 +149,7 @@ export default class ${sdkName} {
 
 const getTransformResString = key =>
   `\n      transformResponse:transformOperations['${key}'],`;
+
 function functionSignature({
   hasPathParams,
   operationName,
@@ -177,12 +176,14 @@ function functionSignature({
   }
   `;
 }
+
 const endString = `
 }
 `;
+
 export { stringOne, functionSignature, endString };
 
-//MARKDOWN
+// MARKDOWN
 export const markdownStartString = ({ name, operationName }) => `
 <details>
 
@@ -195,12 +196,16 @@ ${operationName}
  \`\`\`js
  const  { data, error } = await name.${operationName}({
 `;
+
 export const markdownCodeBlockEnd = () => `
 })
 \`\`\``;
+
 export const appendModalLink = modal => ` [${modal}](###${modal}-modal) `;
+
 export const operationMarkdownEnd = () => `
 </details>
 `;
+
 export const responseMarkdown = ({ resCode, json }) =>
   `\n> ${resCode}\n\`\`\`json\n${JSON.stringify(json, null, 2)}\n\`\`\`\n`;
