@@ -149,5 +149,7 @@ will take current data structure and provide the previous version for one who op
 
 ### TODO
 
-[ ] Standardize SDK Usage Guide generation
-[ ] Testscripts
+- [x] Generate documentation for SDK usage
+- [x] Code documentation for SDK functions
+- [ ] Standardize SDK Usage Guide generation
+- [ ] Testscripts
