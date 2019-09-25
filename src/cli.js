@@ -3,8 +3,15 @@ import arg from "arg";
 import { createProject } from "./main";
 import { printManPage } from "./utils";
 
+/**
+ *
+ *
+ * @param {*} rawArgs
+ * @returns
+ */
 function parseArgumentsIntoOptions(rawArgs) {
   let args;
+
   try {
     args = arg({
       // Types
@@ -21,7 +28,6 @@ function parseArgumentsIntoOptions(rawArgs) {
       "-f": "--js-file",
       "-v": "--version",
       "-b": "--base-url",
-      "-h": "--help",
       "-o": "--optional-headers",
       "-r": "--required-headers",
       "-h": "--help"
@@ -34,6 +40,7 @@ function parseArgumentsIntoOptions(rawArgs) {
       `,
         chalk.red.bold("ERROR")
       );
+
       process.exit(1);
     } else {
       throw err;
@@ -42,6 +49,7 @@ function parseArgumentsIntoOptions(rawArgs) {
 
   if (args["--help"]) {
     printManPage();
+
     process.exit(1);
   }
 
@@ -56,12 +64,20 @@ function parseArgumentsIntoOptions(rawArgs) {
   };
 }
 
+/**
+ *
+ *
+ * @export
+ * @param {*} args
+ */
 export async function cli(args) {
   let options = parseArgumentsIntoOptions(args);
 
   if (!options.jsonFile) {
     console.error("%s --json-file is required", chalk.red.bold("ERROR"));
+
     process.exit(1);
   }
+
   await createProject(options);
 }
