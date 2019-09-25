@@ -33,7 +33,7 @@ Below are parameter available for node cli while generating SDK.
 | `--requiredHeaders` | `-r`  | requirdHeaders params will berequired to pass when initiate the sdk class on frontend        |
 | `--optionalHeaders` | `-o`  |                                                                                              |
 
-any other parameter passed will be added to configs.headers which will be passed to axios instance. All the headers will be used as default headers for every request.
+Any other parameters passed will be added to configs.headers which will be passed to axios instance. All the headers will be used as default headers for every request.
 
 ```js //usage
 const mySDK = new MySDK({
@@ -127,7 +127,7 @@ To pass path params and query params you have `_params` and `-pathParams` that y
 
 ```js
 async function getUser() {
-  const { data, error } = await my.signIn({
+  const { data, error } = await mySDK.signIn({
     ...otherdata,
     _params: {
       //any query paramater
@@ -143,7 +143,7 @@ async function getUser() {
 
 ### What's so cool about this?
 
-You don't have to deal with calling API's, managing API constants, handling errors, approriate headers, params,path params etc.
+You don't have to deal with calling API's, managing API constants, handling errors, headers, params, path params etc.
 On top of that if backend change data structure of response, they can provide a object `transformOperations` with key as operationName functions which
 will take current data structure and provide the previous version for one who opt to use old version.
 
