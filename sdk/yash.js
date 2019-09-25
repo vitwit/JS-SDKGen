@@ -1,45 +1,45 @@
-
 import axios from "axios";
-import { transformOperations } from './transformOperations'
+import { transformOperations } from "./transformOperations";
+
 export default class Yash {
-  constructor( headersObj ={}) {
-    this.version ='1.0.0'
-    this.requiredHeaders = 'name,lastname';
-    this.optionalHeaders = 'token';
+  constructor(headersObj = {}) {
+    "undefined";
+    this.requiredHeaders = "";
+    this.optionalHeaders = "";
     this.name = "Yash";
-    if(this.requiredHeaders){
-      this.requiredHeaders.split(',').forEach(header => {
+    if (this.requiredHeaders) {
+      this.requiredHeaders.split(",").forEach(header => {
         if (Object.keys(headersObj).indexOf(header) < 0) {
           throw Error("All required header to initiate not passed");
         }
       });
     }
     this.configs = {
-      baseURL: "https://yash.ocm",
+      baseURL: "",
       headers: {
-        ...headersObj,
+        ...headersObj
       }
-    }
+    };
     const instance = axios.create({
       ...this.configs
     });
     // get authorization on every request
     instance.interceptors.request.use(
       configs => {
-        if(this.optionalHeaders){
-          this.optionalHeaders.split(',').forEach(header => {
+        if (this.optionalHeaders) {
+          this.optionalHeaders.split(",").forEach(header => {
             this.configs.headers[header] = this.getHeader(header);
           });
         }
-        configs.headers = this.configs.headers
-        configs.baseURL = this.configs.baseURL
-        return configs
+        configs.headers = this.configs.headers;
+        configs.baseURL = this.configs.baseURL;
+        return configs;
       },
       error => Promise.reject(error)
     );
     this.axiosInstance = instance;
   }
-  
+
   fetchApi({
     isFormData,
     method,
@@ -50,6 +50,10 @@ export default class Yash {
     _pathParams = [],
     headerConfigs = {}
   }) {
+    // we intentionally  don't want user to handle error,
+    // he should either get error or data and never both things at once
+    // this eslint rule warns bcoz of the same reason
+    // eslint-disable-next-line
     return new Promise(async resolve => {
       const obj = {
         error: null,
@@ -78,10 +82,10 @@ export default class Yash {
           ...(Object.keys(_params).length ? { params: _params } : {}),
           ...(isFormData
             ? {
-                headers: {
-                  "Content-Type": "multipart/form-data"
-                }
+              headers: {
+                "Content-Type": "multipart/form-data"
               }
+            }
             : {})
         });
         obj.data = resObj.data;
@@ -108,21 +112,21 @@ export default class Yash {
 
   // eslint-disable-next-line
   getHeader(key) {
-    //Get header method
-    //Helps to check if the required header is present or not
+    // Get header method
+    // Helps to check if the required header is present or not
     return window.localStorage.getItem(key);
   }
-  
+
   // --utils method for sdk class
   clearHeader(key) {
     // Clear optional header
-    this.configs.header[key] = '';
+    this.configs.header[key] = "";
     window.localStorage.removeItem(key);
   }
 
   setBaseUrl(url) {
-    //Set BaseUrl
-    //Helps when we require to change the base url, without modifying the sdk code
+    // Set BaseUrl
+    // Helps when we require to change the base url, without modifying the sdk code
 
     this.configs = {
       ...this.configs,
@@ -131,184 +135,182 @@ export default class Yash {
   }
   // ------All api method----
 
-    
-  addPet({ _params,_pathParams,..._data } = {}) {
+  addPet({ _params, _pathParams, ..._data } = {}) {
     return this.fetchApi({
       method: "POST",
-      _url: '/pet',
+      _url: "/pet",
       _data,
-      _params,
+      _params
     });
   }
-  
-  updatePet({ _params,_pathParams,..._data } = {}) {
+
+  updatePet({ _params, _pathParams, ..._data } = {}) {
     return this.fetchApi({
       method: "PUT",
-      _url: '/pet',
+      _url: "/pet",
       _data,
-      _params,
+      _params
     });
   }
-  
-  findPetsByStatus({ _params,_pathParams, } = {}) {
+
+  findPetsByStatus({ _params, _pathParams } = {}) {
     return this.fetchApi({
       method: "GET",
-      _url: '/pet/findByStatus',
-      _params,
+      _url: "/pet/findByStatus",
+      _params
     });
   }
-  
-  findPetsByTags({ _params,_pathParams, } = {}) {
+
+  findPetsByTags({ _params, _pathParams } = {}) {
     return this.fetchApi({
       method: "GET",
-      _url: '/pet/findByTags',
-      _params,
+      _url: "/pet/findByTags",
+      _params
     });
   }
-  
-  getPetById({ _params,_pathParams, } = {}) {
+
+  getPetById({ _params, _pathParams } = {}) {
     return this.fetchApi({
       method: "GET",
-      _url: '/pet/{petId}',
+      _url: "/pet/{petId}",
       _params,
-      _pathParams,
+      _pathParams
     });
   }
-  
-  updatePetWithForm({ _params,_pathParams,..._data } = {}) {
+
+  updatePetWithForm({ _params, _pathParams, ..._data } = {}) {
     return this.fetchApi({
       method: "POST",
-      _url: '/pet/{petId}',
+      _url: "/pet/{petId}",
       _data,
       _params,
-      _pathParams,
+      _pathParams
     });
   }
-  
-  deletePet({ _params,_pathParams, } = {}) {
+
+  deletePet({ _params, _pathParams } = {}) {
     return this.fetchApi({
       method: "DELETE",
-      _url: '/pet/{petId}',
+      _url: "/pet/{petId}",
       _params,
-      _pathParams,
+      _pathParams
     });
   }
-  
-  uploadFile({ _params,_pathParams,..._data } = {}) {
+
+  uploadFile({ _params, _pathParams, ..._data } = {}) {
     return this.fetchApi({
       method: "POST",
       isFormData: true,
-      _url: '/pet/{petId}/uploadImage',
+      _url: "/pet/{petId}/uploadImage",
       _data,
       _params,
-      _pathParams,
+      _pathParams
     });
   }
-  
-  getInventory({ _params,_pathParams, } = {}) {
+
+  getInventory({ _params, _pathParams } = {}) {
     return this.fetchApi({
       method: "GET",
-      _url: '/store/inventory',
-      _params,
+      _url: "/store/inventory",
+      _params
     });
   }
-  
-  placeOrder({ _params,_pathParams,..._data } = {}) {
+
+  placeOrder({ _params, _pathParams, ..._data } = {}) {
     return this.fetchApi({
       method: "POST",
-      _url: '/store/order',
+      _url: "/store/order",
       _data,
-      _params,
+      _params
     });
   }
-  
-  getOrderById({ _params,_pathParams, } = {}) {
+
+  getOrderById({ _params, _pathParams } = {}) {
     return this.fetchApi({
       method: "GET",
-      _url: '/store/order/{orderId}',
+      _url: "/store/order/{orderId}",
       _params,
-      _pathParams,
+      _pathParams
     });
   }
-  
-  deleteOrder({ _params,_pathParams, } = {}) {
+
+  deleteOrder({ _params, _pathParams } = {}) {
     return this.fetchApi({
       method: "DELETE",
-      _url: '/store/order/{orderId}',
+      _url: "/store/order/{orderId}",
       _params,
-      _pathParams,
+      _pathParams
     });
   }
-  
-  createUser({ _params,_pathParams,..._data } = {}) {
+
+  createUser({ _params, _pathParams, ..._data } = {}) {
     return this.fetchApi({
       method: "POST",
-      _url: '/user',
+      _url: "/user",
       _data,
-      _params,
+      _params
     });
   }
-  
-  createUsersWithArrayInput({ _params,_pathParams,..._data } = {}) {
+
+  createUsersWithArrayInput({ _params, _pathParams, ..._data } = {}) {
     return this.fetchApi({
       method: "POST",
-      _url: '/user/createWithArray',
+      _url: "/user/createWithArray",
       _data,
-      _params,
+      _params
     });
   }
-  
-  createUsersWithListInput({ _params,_pathParams,..._data } = {}) {
+
+  createUsersWithListInput({ _params, _pathParams, ..._data } = {}) {
     return this.fetchApi({
       method: "POST",
-      _url: '/user/createWithList',
+      _url: "/user/createWithList",
       _data,
-      _params,
+      _params
     });
   }
-  
-  loginUser({ _params,_pathParams, } = {}) {
+
+  loginUser({ _params, _pathParams } = {}) {
     return this.fetchApi({
       method: "GET",
-      _url: '/user/login',
-      _params,
+      _url: "/user/login",
+      _params
     });
   }
-  
-  logoutUser({ _params,_pathParams, } = {}) {
+
+  logoutUser({ _params, _pathParams } = {}) {
     return this.fetchApi({
       method: "GET",
-      _url: '/user/logout',
-      _params,
+      _url: "/user/logout",
+      _params
     });
   }
-  
-  getUserByName({ _params,_pathParams, } = {}) {
+
+  getUserByName({ _params, _pathParams } = {}) {
     return this.fetchApi({
       method: "GET",
-      _url: '/user/{username}',
+      _url: "/user/{username}",
       _params,
-      _pathParams,
+      _pathParams
     });
   }
-  
-  updateUser({ _params,_pathParams,..._data } = {}) {
+
+  updateUser({ _params, _pathParams, ..._data } = {}) {
     return this.fetchApi({
       method: "PUT",
-      _url: '/user/{username}',
+      _url: "/user/{username}",
       _data,
       _params,
-      _pathParams,
+      _pathParams
     });
   }
-  
-  deleteUser({ _params,_pathParams, } = {}) {
+
+  deleteUser({ _params, _pathParams } = {}) {
     return this.fetchApi({
       method: "DELETE",
-      _url: '/user/{username}',
+      _url: "/user/{username}",
       _params,
-      _pathParams,
+      _pathParams
     });
   }
-  
 }

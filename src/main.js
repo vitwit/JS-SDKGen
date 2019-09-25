@@ -3,7 +3,9 @@ import fs from "fs";
 import Listr from "listr";
 import path from "path";
 import { promisify } from "util";
+
 const access = promisify(fs.access);
+
 const { generateSDK } = require("./codgen.js");
 
 async function generateJs(a) {
@@ -16,16 +18,22 @@ export async function createProject(options) {
   };
 
   const jsonFile = options.jsonFile;
+
   const jsonFileDir = path.resolve(process.cwd(), jsonFile);
+
   options.jsonFile = jsonFileDir;
 
   const jsFile = options.jsFile;
+
   if (jsFile) {
     const jsFileDir = path.resolve(process.cwd(), jsFile);
+
     options.jsFile = jsFileDir;
   }
+
   try {
     await access(jsonFileDir, fs.constants.R_OK);
+
     if (jsFile) {
       await access(jsFile, fs.constants.R_OK);
     }
@@ -34,6 +42,7 @@ export async function createProject(options) {
       "%s does not exist or invalid or no permission to read",
       chalk.red.bold("ERROR")
     );
+
     process.exit(1);
   }
 
@@ -50,11 +59,13 @@ export async function createProject(options) {
   );
 
   await tasks.run();
+
   console.log(
     `
     %s sdk folder generated successfully with required files
     `,
     chalk.green.bold("DONE")
   );
+
   return true;
 }

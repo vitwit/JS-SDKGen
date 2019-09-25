@@ -14,7 +14,6 @@ import {
   extractPathParams,
   toCamelCase,
   toTitleCase,
-  notEmptyObj,
   getDefinitionKey,
   removeKeys
 } from "./utils";
@@ -51,9 +50,9 @@ export function generateSDK({
 }) {
   let _jsonFile;
 
-  let _name = toTitleCase(name);
+  const _name = toTitleCase(name);
 
-  //reading through cli will only have absolute path
+  // reading through cli will only have absolute path
   if (jsonFile) {
     _jsonFile = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
   }
@@ -70,20 +69,20 @@ export function generateSDK({
     _transformOperations = transformOperations;
   }
 
-  let isSwaggerGenerated = isSwaggerJson(_jsonFile);
+  const isSwaggerGenerated = isSwaggerJson(_jsonFile);
 
-  let isGoGenerated = isGoJson(_jsonFile);
+  const isGoGenerated = isGoJson(_jsonFile);
 
   const storeJsCodeInThisArr = [];
 
-  let storeMarkdown = [];
+  const storeMarkdown = [];
 
   storeJsCodeInThisArr.push(
     stringOne({
       version,
       sdkName: _name,
       baseUrl,
-      transformOperations: _transformOperations ? true : false,
+      transformOperations: !!_transformOperations,
       requiredHeaders,
       optionalHeaders
     })
@@ -91,7 +90,7 @@ export function generateSDK({
 
   try {
     if (!isGoGenerated && !isSwaggerGenerated) {
-      const formatedJson = transformJson(_jsonFile);
+      const formatedJson = _transformJson(_jsonFile);
 
       formatedJson.forEach(
         ({ operationName, url, requestMethod, isFormData }) => {
@@ -110,8 +109,6 @@ export function generateSDK({
     }
 
     if (isSwaggerGenerated) {
-      const tags = _jsonFile.tags;
-
       const pathsData = _jsonFile.paths;
 
       Object.entries(pathsData).map(path => {
@@ -121,8 +118,6 @@ export function generateSDK({
           const requestMethod = method[0];
 
           const methodData = method[1];
-
-          const apiGroup = (methodData.tags || ["common"])[0];
 
           const operationName = methodData.operationId;
 
@@ -154,8 +149,8 @@ export function generateSDK({
               //  so we just comment meta info here and link to that modal below example code
 
               if (name === "body") {
-                const definition =
-                  _jsonFile.definitions[getDefinitionKey(schema)];
+                // const definition =
+                //   _jsonFile.definitions[getDefinitionKey(schema)];
 
                 storeMarkdown.push(
                   `  /** ${getDefinitionKey(schema)} modal,${
@@ -263,7 +258,7 @@ export function generateSDK({
 
             if (Object.keys(fiveXX).length) {
               storeMarkdown.push(
-                responseMarkdown({ resCode: "Error 5XX", json: fivXX })
+                responseMarkdown({ resCode: "Error 5XX", json: fiveXX })
               );
             }
           };
@@ -306,8 +301,6 @@ export function generateSDK({
         const url = api.url;
 
         const requestMethod = api.type;
-
-        const apiGroup = api.group;
 
         const operationName = toCamelCase(api.name);
 

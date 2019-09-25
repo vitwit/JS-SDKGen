@@ -25,12 +25,11 @@ function parseArgumentsIntoOptions(rawArgs) {
       "--help": Boolean,
       // Aliases
       "-f": "--json-file",
-      "-f": "--js-file",
+      "-j": "--js-file",
       "-v": "--version",
       "-b": "--base-url",
       "-o": "--optional-headers",
-      "-r": "--required-headers",
-      "-h": "--help"
+      "-r": "--required-headers"
     });
   } catch (err) {
     if (err.code === "ARG_UNKNOWN_OPTION") {
@@ -71,7 +70,7 @@ function parseArgumentsIntoOptions(rawArgs) {
  * @param {*} args
  */
 export async function cli(args) {
-  let options = parseArgumentsIntoOptions(args);
+  const options = parseArgumentsIntoOptions(args);
 
   if (!options.jsonFile) {
     console.error("%s --json-file is required", chalk.red.bold("ERROR"));

@@ -1,6 +1,6 @@
 # JS-SDKGen
 
-JS-SDKGen is a JavaScript SDK Code generator for your API. It uses apidoc definitions from swagger or apidocjs and generates the Javascript SDK automatically. Along with SDK, it also generates SDK usage documentation, thus saving hours of work for you in writing SDK & usage documentation. More importantly, it eliminates the manual errors. Optionally you can use your own json file with any shape with transform function.
+JS-SDKGen is a JavaScript SDK Code generator for your API. It uses apidoc definitions from swagger or apidocjs and generates the Javascript SDK automatically. Along with SDK, it also generates SDK usage documentation, thus saving hours of work for you in writing SDK & usage documentation. More importantly, it eliminates the manual errors. If you don't have any API doc generator already set up in your project, you can use your own json file.
 
 ## Installation
 
