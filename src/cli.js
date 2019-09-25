@@ -3,6 +3,12 @@ import arg from "arg";
 import { createProject } from "./main";
 import { printManPage } from "./utils";
 
+/**
+ *
+ *
+ * @param {*} rawArgs
+ * @returns
+ */
 function parseArgumentsIntoOptions(rawArgs) {
   let args;
   try {
@@ -21,7 +27,6 @@ function parseArgumentsIntoOptions(rawArgs) {
       "-f": "--js-file",
       "-v": "--version",
       "-b": "--base-url",
-      "-h": "--help",
       "-o": "--optional-headers",
       "-r": "--required-headers",
       "-h": "--help"
@@ -56,6 +61,12 @@ function parseArgumentsIntoOptions(rawArgs) {
   };
 }
 
+/**
+ *
+ *
+ * @export
+ * @param {*} args
+ */
 export async function cli(args) {
   let options = parseArgumentsIntoOptions(args);
 

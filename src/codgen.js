@@ -10,6 +10,7 @@ import {
   operationMarkdownEnd,
   responseMarkdown
 } from "./codeStrings";
+
 import {
   extractPathParams,
   toCamelCase,
@@ -18,10 +19,12 @@ import {
   getDefinitionKey,
   removeKeys
 } from "./utils";
+
 import cp from "cp";
 
 const isGoJson = json => {
   const api = json && json[0];
+
   return api && api.type && api.url && api.name && api.parameter.fields;
 };
 const isSwaggerJson = json => {
@@ -32,7 +35,7 @@ const stringifyObj = obj =>
     .map(key => {
       return `${key}:${
         typeof obj[key] !== "object" ? obj[key] : JSON.stringify(obj[key])
-      }`;
+        }`;
     })
     .join()
     .replace(/:/g, "-");
@@ -130,7 +133,7 @@ export function generateSDK({
                   _jsonFile.definitions[getDefinitionKey(schema)];
                 storeMarkdown.push(
                   `  /** ${getDefinitionKey(schema)} modal,${
-                    schema.type ? "type - " + schema.type + "," : ""
+                  schema.type ? "type - " + schema.type + "," : ""
                   } ${stringifyObj(removeKeys(other, "in"))} */`
                 );
                 thisOperationBodyParamsModals.push(getDefinitionKey(schema));
@@ -144,7 +147,7 @@ export function generateSDK({
               }
             });
             if (pathParams.length) {
-              storeMarkdown.push(`  _pathParams: {\n`);
+              storeMarkdown.push("  _pathParams: {\n");
               pathParams.forEach(({ name, type, ...other }) => {
                 storeMarkdown.push(
                   `   ${name}:${type}, /** ${stringifyObj({
@@ -152,10 +155,10 @@ export function generateSDK({
                   })} */ \n`
                 );
               });
-              storeMarkdown.push(`  }`);
+              storeMarkdown.push("  }");
             }
             if (qparams.length) {
-              storeMarkdown.push(`  _params: {\n`);
+              storeMarkdown.push("  _params: {\n");
               qparams.forEach(({ name, type, ...other }) => {
                 storeMarkdown.push(
                   `   ${name}:${type}, /** ${stringifyObj({
@@ -163,7 +166,7 @@ export function generateSDK({
                   })} */ \n`
                 );
               });
-              storeMarkdown.push(`  }`);
+              storeMarkdown.push("  }");
             }
             storeMarkdown.push(markdownCodeBlockEnd());
           };
@@ -224,7 +227,7 @@ export function generateSDK({
             ...thisOperationResponesModals
           ];
           if (thisOperationsModals.length) {
-            storeMarkdown.push(`\n###### `);
+            storeMarkdown.push("\n###### ");
             thisOperationsModals.forEach(a =>
               storeMarkdown.push(appendModalLink(a))
             );
@@ -285,7 +288,7 @@ export function generateSDK({
   if (isSwaggerGenerated) {
     const generateModalsReadeMe = json => {
       const definitions = json.definitions;
-      storeMarkdown.push(`\n# Modal Definations\n`);
+      storeMarkdown.push("\n# Modal Definations\n");
       Object.keys(definitions).forEach(key => {
         storeMarkdown.push(
           `\n ### ${key}-modal\n \`\`\`json\n${JSON.stringify(
