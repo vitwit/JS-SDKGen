@@ -34,7 +34,7 @@ const stringifyObj = obj =>
     .map(key => {
       return `${key}:${
         typeof obj[key] !== "object" ? obj[key] : JSON.stringify(obj[key])
-      }`;
+        }`;
     })
     .join()
     .replace(/:/g, "-");
@@ -154,7 +154,7 @@ export function generateSDK({
 
                 storeMarkdown.push(
                   `  /** ${getDefinitionKey(schema)} modal,${
-                    schema.type ? "type - " + schema.type + "," : ""
+                  schema.type ? "type - " + schema.type + "," : ""
                   } ${stringifyObj(removeKeys(other, "in"))} */`
                 );
 

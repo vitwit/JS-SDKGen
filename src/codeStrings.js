@@ -9,17 +9,19 @@ const stringOne = ({
   return `
 import axios from "axios";
 ${
-  transformOperations
-    ? "import { transformOperations } from './transformOperations'"
-    : ""
-}
+    transformOperations
+      ? "import { transformOperations } from './transformOperations'"
+      : ""
+    }
+
 export default class ${sdkName} {
   constructor( headersObj ={}) {${
     version ? "\n    this.version =" : ""
-  }'${version}'
+    }'${version}'
     this.requiredHeaders = '${requiredHeaders}';
     this.optionalHeaders = '${optionalHeaders}';
     this.name = "${sdkName}";
+
     if(this.requiredHeaders){
       this.requiredHeaders.split(',').forEach(header => {
         if (Object.keys(headersObj).indexOf(header) < 0) {
@@ -27,15 +29,18 @@ export default class ${sdkName} {
         }
       });
     }
+
     this.configs = {
       baseURL: "${baseUrl}",
       headers: {
         ...headersObj,
       }
     }
+
     const instance = axios.create({
       ...this.configs
     });
+
     // get authorization on every request
     instance.interceptors.request.use(
       configs => {
@@ -46,10 +51,12 @@ export default class ${sdkName} {
         }
         configs.headers = this.configs.headers
         configs.baseURL = this.configs.baseURL
+
         return configs
       },
       error => Promise.reject(error)
     );
+
     this.axiosInstance = instance;
   }
   
@@ -68,7 +75,9 @@ export default class ${sdkName} {
         error: null,
         data: null
       };
+
       let data = _data;
+
       if (isFormData) {
         const formdata = new FormData();
         Object.entries(_data).forEach(arr => {
@@ -161,17 +170,17 @@ function functionSignature({
   return `
   ${operationName}({ _params,_pathParams,${
     requestMethod === "PUT" || requestMethod === "POST" ? "..._data" : ""
-  } } = {}) {
+    } } = {}) {
     return this.fetchApi({
       method: "${requestMethod}",${
     isFormData ? "\n      isFormData: true," : ""
-  }
+    }
       _url: '${url}',${
     requestMethod === "PUT" || requestMethod === "POST" ? "\n      _data," : ""
-  }
+    }
       _params,${hasPathParams ? "\n      _pathParams," : ""}${
     transformResponse ? getTransformResString(operationName) : ""
-  }
+    }
     });
   }
   `;

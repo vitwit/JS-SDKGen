@@ -1,11 +1,23 @@
 # JS-SDKGen
 
-JS-SDKGen is JavaScript API SDK Code generator, based on json file generated for api docs by Swagger or apidocjs or optionally your own json file with any shape with transform function. It just requires a apidoc definition (swagger and apidocjs genenrated api docs aslo supported now) and it generates the JavaScript SDK for you. Thus eliminate the work of writing your own SDK. It can run in both browser(a tool can be made) and node.
+JS-SDKGen is a JavaScript SDK Code generator for your API. It uses apidoc definitions from swagger or apidocjs and generates the Javascript SDK automatically. Along with SDK, it also generates SDK usage documentation, thus saving hours of work for you in writing SDK & usage documentation. More importantly, it eliminates the manual errors. If you don't have any API doc generator already set up in your project, you can use your own json file.
 
 ## Installation
 
+### Prerequisites
+
+```sh
+Node.js
+```
+
+### Install
+
 ```sh
 npm install -g js-sdkgen
+```
+
+### Usage
+```sh
 js-sdkgen --json-file=api-docs.json name=MySDK --version=1.0.0 base-url=https://vitwit.com/api --requiredHeaders accoundId,key --optionalHeaders name
 ```
 
@@ -15,7 +27,7 @@ Below are parameter available for node cli while generating SDK.
 | ------------------- | ----- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | `--json-file`       | `-f`  | path of json                                                                                 | required (if not provided will look for 'api-docs.json' file in current directory)                               |
 | `--js-file`         | `-j`  | path of a js file which named exports two function `transformJson` and `transformOperations` | not required if json is already in below mentioned format or no operation's response data need to be transformed |  |
-| `--base-url`        | `-b`  | base url of your app, will be passed axios instance                                          | required                                                                                                         |
+| `--base-url`        | `-b`  | base url of your application (API endpoint), will be passed axios instance                                          | required                                                                                                         |
 | `--name`            | `-n`  | it will be name of generated sdk class                                                       | optional                                                                                                         |
 | `--version`         | `-v`  | version of sdk                                                                               | optional                                                                                                         |
 | `--requiredHeaders` | `-r`  | requirdHeaders params will berequired to pass when initiate the sdk class on frontend        |
@@ -30,7 +42,8 @@ const mySDK = new MySDK({
 });
 ```
 
-### Mandatory Headers & Optional Headers?
+
+### Mandatory Headers & Optional Headers
 
 This is a tricky part in the SDK generation. As we are automating the SDK generation, we need to understand, what are all the headers we need for our APIs. For example, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY are the required configuration credentials to use AWS SDKs. In the same way, if your SDK needs any credentials that need to be sent for every API request, you need to mention them as mandatory headers in headers configuration.
 

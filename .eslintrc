@@ -36,6 +36,19 @@
         "exports": "never",
         "functions": "never"
       }],
+      "padding-line-between-statements": [
+        "error",
+        {
+            "blankLine": "always",
+            "prev": "*",
+            "next": "*"
+        },
+        {
+            "blankLine": "never",
+            "prev": "import",
+            "next": "import"
+        }
+    ],
       "comma-spacing": ["error", { "before": false, "after": true }],
       "comma-style": ["error", "last"],
       "computed-property-spacing": ["error", "never"],
