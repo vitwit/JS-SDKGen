@@ -34,7 +34,7 @@ Below are parameter available for node cli while generating SDK.
 | `--requiredHeaders` | `-r`  | requirdHeaders params will berequired to pass when initiate the sdk class on frontend        |
 | `--optionalHeaders` | `-o`  |                                                                                              |
 
-any other parameter passed will be added to configs.headers which will be passed to axios instance. All the headers will be used as default headers for every request.
+Any other parameters passed will be added to configs.headers which will be passed to axios instance. All the headers will be used as default headers for every request.
 
 ```js //usage
 const mySDK = new MySDK({
@@ -45,9 +45,9 @@ const mySDK = new MySDK({
 
 ### Mandatory Headers & Optional Headers
 
-This is a tricky part in the SDK generation. As we are automating the SDK generation, we need to understand, what are all the headers we need for our APIs. For example, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY are the required configuration credentials to use AWS SDKs. In the same way, if your SDK needs any credentials that need to be sent for every API request, you need to mention them as mandatory headers in headers configuration.
+This is a tricky part of the SDK generation. As we are automating the SDK generation, we need to understand, what are all the headers we need for our APIs. For example, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` are the required configuration credentials to use AWS SDKs. In the same way, if your SDK needs any credentials that need to be sent for every API request, you need to mention them as mandatory headers in headers configuration.
 
-Optional Headers, as name suggest, they are optional or required only for certain APIs. SDK will send those headers only after they are set. For example, if API requires, Authorization token for some APIs and not for all other APIs, it can be set as optional header. There are two functions to set & clear these Optional Headers. Optional headers are useful when we need to deal with login/logout kind of scenarios. Few methods from SDK's can be used optionally and when user logged into the system, SDK should send authorization tokens from then. For this kind of cases, you can make use of OptionalHeaders and `set` & `clear` functions.
+Optional Headers, as the name suggests, they are optional or required only for certain APIs. SDK will send those headers only after they are set. For example, if API requires, Authorization token for some APIs and not for all other APIs, it can be set as an optional header. There are two functions to set & clear these Optional Headers. Optional headers are useful when we need to deal with login/logout kind of scenarios. Few methods from SDK's can be used optionally and when a user logged into the system, SDK should send authorization tokens from then. For this kind of cases, you can make use of OptionalHeaders and `set` & `clear` functions.
 
 ```js
 //to set the headers
@@ -149,7 +149,7 @@ To pass path params and query params you have `_params` and `-pathParams` that y
 
 ```js
 async function getUser() {
-  const { data, error } = await my.signIn({
+  const { data, error } = await mySDK.signIn({
     ...otherdata,
     _params: {
       //any query paramater
@@ -165,7 +165,7 @@ async function getUser() {
 
 ### What's so cool about this?
 
-You don't have to deal with calling API's, managing API constants, handling errors, approriate headers, params,path params etc.
+You don't have to deal with calling API's, managing API constants, handling errors, headers, params, path params etc.
 On top of that if backend change data structure of response, they can provide a object `transformOperations` with key as operationName functions which
 will take current data structure and provide the previous version for one who opt to use old version.
 
