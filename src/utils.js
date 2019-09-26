@@ -67,7 +67,7 @@ export const notEmptyObj = obj => Object.keys(obj).length;
  *
  * Help Manual
  */
-const printManPage = () => {
+export const printManPage = () => {
   console.log(
     `
     
@@ -119,7 +119,7 @@ export const getDefinitionKey = a =>
  * @param {*} a
  * @returns
  */
-const removeKeys = (obj, ...a) => {
+export const removeKeys = (obj, ...a) => {
   const abc = {};
 
   Object.keys(obj).forEach(key =>
