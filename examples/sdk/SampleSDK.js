@@ -2,11 +2,12 @@
 import axios from "axios";
 import { transformOperations } from './transformOperations'
 
-export default class Yash {
-  constructor( headersObj ={}) {'undefined'
-    this.requiredHeaders = '';
-    this.optionalHeaders = '';
-    this.name = "Yash";
+export default class Samplesdk {
+  constructor( headersObj ={}) {
+    this.version ='1.0.0'
+    this.requiredHeaders = 'accountId';
+    this.optionalHeaders = 'accessToken';
+    this.name = "Samplesdk";
 
     if(this.requiredHeaders){
       this.requiredHeaders.split(',').forEach(header => {
@@ -17,7 +18,7 @@ export default class Yash {
     }
 
     this.configs = {
-      baseURL: "",
+      baseURL: "https://vitwit.com/api",
       headers: {
         ...headersObj,
       }
