@@ -31,8 +31,8 @@ Below are the list of parameters available for node cli config while generating 
 | `--base-url`        | `-b`  | base url of your application (API endpoint), will be passed axios instance                   | required                                                                                                         |
 | `--name`            | `-n`  | it will be name of generated sdk class                                                       | optional                                                                                                         |
 | `--version`         | `-v`  | version of sdk                                                                               | optional                                                                                                         |
-| `--requiredHeaders` | `-r`  | requirdHeaders params will berequired to pass when initiate the sdk class on frontend        |
-| `--optionalHeaders` | `-o`  |                                                                                              |
+| `--required-headers` | `-r`  | requirdHeaders params will berequired to pass when initiate the sdk class on frontend        |
+| `--optional-headers` | `-o`  |                                                                                              |
 
 Any other parameters passed will be added to configs.headers which will be passed to axios instance. All the headers will be used as default headers for every request.
 
