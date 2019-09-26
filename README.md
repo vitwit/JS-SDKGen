@@ -17,17 +17,18 @@ npm install -g js-sdkgen
 ```
 
 ### Usage
+
 ```sh
 js-sdkgen --json-file=api-docs.json name=MySDK --version=1.0.0 base-url=https://vitwit.com/api --requiredHeaders accoundId,key --optionalHeaders name
 ```
 
-Below are parameter available for node cli while generating SDK.
+Below are the list of parameters available for node cli config while generating SDK.
 
 | param               | alias | usage                                                                                        | optional or required                                                                                             |
 | ------------------- | ----- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | `--json-file`       | `-f`  | path of json                                                                                 | required (if not provided will look for 'api-docs.json' file in current directory)                               |
 | `--js-file`         | `-j`  | path of a js file which named exports two function `transformJson` and `transformOperations` | not required if json is already in below mentioned format or no operation's response data need to be transformed |  |
-| `--base-url`        | `-b`  | base url of your application (API endpoint), will be passed axios instance                                          | required                                                                                                         |
+| `--base-url`        | `-b`  | base url of your application (API endpoint), will be passed axios instance                   | required                                                                                                         |
 | `--name`            | `-n`  | it will be name of generated sdk class                                                       | optional                                                                                                         |
 | `--version`         | `-v`  | version of sdk                                                                               | optional                                                                                                         |
 | `--requiredHeaders` | `-r`  | requirdHeaders params will berequired to pass when initiate the sdk class on frontend        |
@@ -41,7 +42,6 @@ const mySDK = new MySDK({
   MandatoryHeader2: "Header2Value"
 });
 ```
-
 
 ### Mandatory Headers & Optional Headers
 
@@ -66,7 +66,7 @@ Example cli parameters to set MandatoryHeader1, MandatoryHeader2 as required hea
 js-sdkgen --json-file api-docs.json --name=MySDK --version=1.0.0 --base-url=https://vitwit.com/api  --requiredHeaders a,b,c --optionalHeaders d,e,f
 ```
 
-these configs can overridden or more configs can be passed from frontend before intiating the class as below.
+These configs can overridden or more configs can be passed from frontend before intiating the class as below.
 
 ```js
 //To set header parameters, ex: Authorization with Bearer token
@@ -77,6 +77,27 @@ mySDK.setBaseUrl("https://api.vitwit.com/v2");
 
 // you can also get any header value set by you calling getHeader
 mySDK.getHeader("Authorization");
+
+// or you can just intercept requests and responses
+mySDK.interceptRequest((configs, error) => {
+  if (error) {
+    Promise.reject(error);
+  }
+  configs.baseURL = "http://localhost:3001";
+  return configs;
+});
+
+// similarly for response
+mySDK.interceptResponse((res, error) => {
+  if (error) {
+    if (error.response && error.response.status === 401) {
+      // redirects somewhere
+      // or retreive refresh token
+    }
+    return Promise.reject(error);
+  }
+  return res;
+});
 ```
 
 The json file mentioned above should have following data structure.(make sure you write `operationId` in your node backend inline comments for swagger generated API docs)
@@ -121,7 +142,7 @@ async function handleSignIn(name, password) {
 }
 ```
 
-To pass path params and query params you have `_params` and `-pathParams` that you can pass in same object. They are automatically extracted from other body params. `_pathParams` keys are placeholders in api path i.e for path `orgs/{orgId}/users/{userId}` `orgId` and `userId` are `_pathParams`.
+To pass path params and query params you have `_params` and `_pathParams` that you can pass in same object. They are automatically extracted from other body params. `_pathParams` keys are placeholders in api path i.e for path `orgs/{orgId}/users/{userId}` `orgId` and `userId` are `_pathParams`.
 
 ###### note: In your json file of api docs path should follow this same structure for placeholder all others like /orgs/:orgId or orgs/ORGID/ will result in silent errors.
 
@@ -149,7 +170,5 @@ will take current data structure and provide the previous version for one who op
 
 ### TODO
 
-- [x] Generate documentation for SDK usage
-- [x] Code documentation for SDK functions
 - [ ] Standardize SDK Usage Guide generation
 - [ ] Testscripts

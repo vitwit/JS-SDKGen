@@ -9,15 +9,15 @@ const stringOne = ({
   return `
 import axios from "axios";
 ${
-    transformOperations
-      ? "import { transformOperations } from './transformOperations'"
-      : ""
-    }
+  transformOperations
+    ? "import { transformOperations } from './transformOperations'"
+    : ""
+}
 
 export default class ${sdkName} {
   constructor( headersObj ={}) {${
     version ? "\n    this.version =" : ""
-    }'${version}'
+  }'${version}'
     this.requiredHeaders = '${requiredHeaders}';
     this.optionalHeaders = '${optionalHeaders}';
     this.name = "${sdkName}";
@@ -120,11 +120,35 @@ export default class ${sdkName} {
       }
     });
   }
+  // intercept response
+  interceptResponse(cb) {
+    // just want to make user provide one callback,so mergin to callbacks
+    const cb1 = r => cb(r);
+    const cb2 = e => cb(undefined, e);
+    this.axiosInstance.interceptors.response.use(cb1, cb2);
+  }
 
-  // --utils method for sdk class
+  interceptRequest(cb) {
+    // first we need to eject the callback we are already using
+
+    this.axiosInstance.interceptors.request.eject(this.requestInterceptor);
+    const cb1 = c => cb(c, undefined);
+    const cb2 = e => cb(undefined, e);
+    this.requestInterceptor = this.axiosInstance.interceptors.request.use(
+      cb1,
+      cb2
+    );
+  }
+
+
+  // utils method for sdk class
   setHeader(key, value) {
     // Set optional header
     this.configs.header[key] = value;
+
+    // storing in local storage to retrieve after reloads
+    // if you are managing refresh token and just storing token in memory
+    // than instead of using set Headers, just use interceptRequest and interceptResponse methods
     window.localStorage.setItem(key, value);
   }
 
@@ -170,17 +194,17 @@ function functionSignature({
   return `
   ${operationName}({ _params,_pathParams,${
     requestMethod === "PUT" || requestMethod === "POST" ? "..._data" : ""
-    } } = {}) {
+  } } = {}) {
     return this.fetchApi({
       method: "${requestMethod}",${
     isFormData ? "\n      isFormData: true," : ""
-    }
+  }
       _url: '${url}',${
     requestMethod === "PUT" || requestMethod === "POST" ? "\n      _data," : ""
-    }
+  }
       _params,${hasPathParams ? "\n      _pathParams," : ""}${
     transformResponse ? getTransformResString(operationName) : ""
-    }
+  }
     });
   }
   `;

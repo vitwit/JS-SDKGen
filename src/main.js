@@ -8,10 +8,6 @@ const access = promisify(fs.access);
 
 const { generateSDK } = require("./codgen.js");
 
-async function generateJs(a) {
-  generateSDK(a);
-}
-
 export async function createProject(options) {
   options = {
     ...options
@@ -50,7 +46,7 @@ export async function createProject(options) {
     [
       {
         title: "Generating Sdk...",
-        task: () => generateJs(options)
+        task: () => generateSDK(options)
       }
     ],
     {
