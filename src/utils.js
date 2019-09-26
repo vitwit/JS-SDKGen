@@ -1,20 +1,60 @@
 import chalk from "chalk";
 
+/**
+ *
+ *
+ * @export
+ * @param {string} [s=""]
+ * @returns String with camel case
+ */
 export function toCamelCase(s = "") {
+  if (!s) {
+    return;
+  }
+
   return s
-    .replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
       return index === 0 ? word.toLowerCase() : word.toUpperCase();
     })
     .replace(/\s+/g, "");
 }
 
+/**
+ *
+ * 
+ * toTitleCase Converts given string to Title case
+ * i.e., Converts to lowercase and then 
+ * 
+ * @export
+ * @param {string} [s=""]
+ * @returns String with capitalized case
+ */
 export function toTitleCase(s = "") {
-  return s.replace(/\w+/g, function(w) {
-    return w[0].toUpperCase() + w.slice(1).toLowerCase();
+  if (!s) {
+    return;
+  }
+
+  return s.replace(/\w+/g, function (w) {
+    w = w.toLocaleLowerCase();
+
+    return w[0].toUpperCase();
   });
 }
 
+/**
+ *
+ *
+ * fn extractPathParams Extracts path parameters from given path string
+ * 
+ * @export
+ * @param {string} path
+ * @returns {array} path params
+ */
 export function extractPathParams(path) {
+  if (!path) {
+    return;
+  }
+
   const paramsArr = path.match(/{\w+}/g);
 
   return (paramsArr || []).map(param => param.replace(/{|}/g, "")) || [];
@@ -22,7 +62,12 @@ export function extractPathParams(path) {
 
 export const notEmptyObj = obj => Object.keys(obj).length;
 
-export const printManPage = () => {
+/**
+ *
+ *
+ * Help Manual
+ */
+const printManPage = () => {
   console.log(
     `
     
@@ -67,7 +112,14 @@ export const getDefinitionKey = a =>
     a.items.$ref &&
     a.items.$ref.split("#/definitions/")[1]);
 
-export const removeKeys = (obj, ...a) => {
+/**
+ *
+ * removeKeys Removes keys from given object
+ * @param {*} obj
+ * @param {*} a
+ * @returns
+ */
+const removeKeys = (obj, ...a) => {
   const abc = {};
 
   Object.keys(obj).forEach(key =>
