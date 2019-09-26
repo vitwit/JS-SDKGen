@@ -21,10 +21,10 @@ export function toCamelCase(s = "") {
 
 /**
  *
- * 
+ *
  * toTitleCase Converts given string to Title case
- * i.e., Converts to lowercase and then 
- * 
+ * i.e., Converts to lowercase and then
+ *
  * @export
  * @param {string} [s=""]
  * @returns String with capitalized case
@@ -35,9 +35,7 @@ export function toTitleCase(s = "") {
   }
 
   return s.replace(/\w+/g, function (w) {
-    w = w.toLocaleLowerCase();
-
-    return w[0].toUpperCase();
+    return w[0].toUpperCase() + w.slice(1).toLowerCase()
   });
 }
 
@@ -45,7 +43,7 @@ export function toTitleCase(s = "") {
  *
  *
  * fn extractPathParams Extracts path parameters from given path string
- * 
+ *
  * @export
  * @param {string} path
  * @returns {array} path params
@@ -75,9 +73,9 @@ export const printManPage = () => {
     `
   );
 
-  const manPage = `  --jsonFile:         String, --jsonFile filename.json or --jsonFile=filename.json or --jsonFile ../Downloads/filename.json
+  const manPage = `  --json-file:         String, --jsonFile filename.json or --jsonFile=filename.json or --jsonFile ../Downloads/filename.json
 
-  --jsFile:           String   
+  --js-file:           String   
   
   --version:          String
   
@@ -93,13 +91,14 @@ export const printManPage = () => {
 
  ${chalk.gray.bold("or you can you use the following aliases")}
 
-  -f: --jsonFile
-  -j: --jsFile
+  -f: --json-file
+  -j: --js-file
   -v: --version
   -b: --baseUrl
   -o: --optionalHeaders
   -r: --requiredHeaders
   -h: --help
+  -n: --name
   `;
 
   console.log(manPage);

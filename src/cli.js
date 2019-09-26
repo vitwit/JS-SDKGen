@@ -29,7 +29,8 @@ function parseArgumentsIntoOptions(rawArgs) {
       "-v": "--version",
       "-b": "--base-url",
       "-o": "--optional-headers",
-      "-r": "--required-headers"
+      "-r": "--required-headers",
+      "-n": "--name"
     });
   } catch (err) {
     if (err.code === "ARG_UNKNOWN_OPTION") {
