@@ -1,7 +1,7 @@
 {
   "name": "@vitwit/js-sdkgen",
-  "version": "2.0.1",
-  "description": "JavaScript SDK generator from api doc's json file, go-docs and swagger support by default,or any json file with given shape.",
+  "version": "2.0.2",
+  "description": "JavaScript SDK code generator for any API. It uses apidoc definitions from swagger or apidocjs and generates the Javascript SDK automatically.",
   "main": "src/index.js",
   "bin": {
     "js-sdkgen": "bin/js-sdkgen"
@@ -15,10 +15,8 @@
     "sdk generator",
     "js-sdkgen",
     "JavaScript",
-    "cli",
-    "codegen",
-    "sdk",
-    "vitwit"
+    "sdkgen",
+    "sdk"
   ],
   "author": "Vitwit",
   "contributors": [
