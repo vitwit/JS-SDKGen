@@ -79,7 +79,6 @@ mySDK.setBaseUrl("https://api.vitwit.com/v2");
 mySDK.getHeader("Authorization");
 
 // or you can just intercept requests and responses
-
 mySDK.interceptRequest((configs, error) => {
   if (error) {
     Promise.reject(error);
@@ -87,8 +86,8 @@ mySDK.interceptRequest((configs, error) => {
   configs.baseURL = "http://localhost:3001";
   return configs;
 });
-// similary for response
 
+// similarly for response
 mySDK.interceptResponse((res, error) => {
   if (error) {
     if (error.response && error.response.status === 401) {
