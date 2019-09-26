@@ -60,10 +60,10 @@ mySDK.clearHeader("OptionalHeader1");
 mySDK.getHeader("Header1");
 ```
 
-Example cli parameters to set MandatoryHeader1, MandatoryHeader2 as required headers, you just need to keep `true` after the header name. If the variable is set to `false` or left blank, it will be considered as Optional Header by the program.
+Example cli parameters to set a, b, c as required headers, you just need to keep `true` after the header name. If the variable is set to `false` or left blank, it will be considered as Optional Header by the program.
 
 ```sh
-js-sdkgen --json-file api-docs.json --name=MySDK --version=1.0.0 --base-url=https://vitwit.com/api  --requiredHeaders a,b,c --optionalHeaders d,e,f
+js-sdkgen --json-file api-docs.json --name=MySDK --version=1.0.0 --base-url=https://vitwit.com/api  --required-headers a,b,c --optional-headers d,e,f
 ```
 
 These configs can overridden or more configs can be passed from frontend before intiating the class as below.
@@ -83,7 +83,9 @@ mySDK.interceptRequest((configs, error) => {
   if (error) {
     Promise.reject(error);
   }
+  
   configs.baseURL = "http://localhost:3001";
+
   return configs;
 });
 
@@ -94,8 +96,10 @@ mySDK.interceptResponse((res, error) => {
       // redirects somewhere
       // or retreive refresh token
     }
+
     return Promise.reject(error);
   }
+
   return res;
 });
 ```
