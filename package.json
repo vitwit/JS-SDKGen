@@ -1,6 +1,6 @@
 {
   "name": "@vitwit/js-sdkgen",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "JavaScript SDK code generator for any API. It uses apidoc definitions from swagger or apidocjs and generates the Javascript SDK automatically.",
   "main": "src/index.js",
   "bin": {
@@ -50,6 +50,7 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
+    "eslint-plugin-standard": "^4.0.1",
+    "standard-version": "^7.0.0"
   }
 }
