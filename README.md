@@ -19,7 +19,7 @@ npm install -g js-sdkgen
 ### Usage
 
 ```sh
-js-sdkgen --json-file=api-docs.json name=MySDK --version=1.0.0 base-url=https://vitwit.com/api --requiredHeaders accoundId,key --optionalHeaders name
+js-sdkgen --json-file=swagger.json --name=SampleSDK --version=1.0.0 --base-url=https://vitwit.com/api --required-headers accountId --optional-headers accessToken
 ```
 
 Below are the list of parameters available for node cli config while generating SDK.
