@@ -21,7 +21,7 @@ npm install -g js-sdkgen
 js-sdkgen --json-file=api-docs.json name=MySDK --version=1.0.0 base-url=https://vitwit.com/api --requiredHeaders accoundId,key --optionalHeaders name
 ```
 
-Below are parameter available for node cli while generating SDK.
+Below are the list of parameters available for node cli config while generating SDK.
 
 | param               | alias | usage                                                                                        | optional or required                                                                                             |
 | ------------------- | ----- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
@@ -66,7 +66,7 @@ Example cli parameters to set MandatoryHeader1, MandatoryHeader2 as required hea
 js-sdkgen --json-file api-docs.json --name=MySDK --version=1.0.0 --base-url=https://vitwit.com/api  --requiredHeaders a,b,c --optionalHeaders d,e,f
 ```
 
-these configs can overridden or more configs can be passed from frontend before intiating the class as below.
+These configs can overridden or more configs can be passed from frontend before intiating the class as below.
 
 ```js
 //To set header parameters, ex: Authorization with Bearer token
@@ -121,7 +121,7 @@ async function handleSignIn(name, password) {
 }
 ```
 
-To pass path params and query params you have `_params` and `-pathParams` that you can pass in same object. They are automatically extracted from other body params. `_pathParams` keys are placeholders in api path i.e for path `orgs/{orgId}/users/{userId}` `orgId` and `userId` are `_pathParams`.
+To pass path params and query params you have `_params` and `_pathParams` that you can pass in same object. They are automatically extracted from other body params. `_pathParams` keys are placeholders in api path i.e for path `orgs/{orgId}/users/{userId}` `orgId` and `userId` are `_pathParams`.
 
 ###### note: In your json file of api docs path should follow this same structure for placeholder all others like /orgs/:orgId or orgs/ORGID/ will result in silent errors.
 
