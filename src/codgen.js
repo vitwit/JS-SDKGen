@@ -23,7 +23,7 @@ import cp from "cp";
  *
  * fn isDocJson
  * Checks if the given json is of apidocjs style
- * 
+ *
  * @param {*} json
  * @returns true / false
  */
@@ -37,7 +37,7 @@ const isDocJson = json => {
  *
  * fn isSwaggerJson
  * Checks if given json file is of swagger style
- * 
+ *
  * @param {*} json
  * @returns true / false
  */
@@ -50,7 +50,7 @@ const isSwaggerJson = json => {
  *
  * fn stringifyObj
  * Stringifies the given object (multi-level)
- * 
+ *
  * @param {*} obj
  */
 const stringifyObj = obj =>
@@ -58,7 +58,7 @@ const stringifyObj = obj =>
     .map(key => {
       return `${key}:${
         typeof obj[key] !== "object" ? obj[key] : JSON.stringify(obj[key])
-        }`;
+      }`;
     })
     .join()
     .replace(/:/g, "-");
@@ -68,7 +68,7 @@ const stringifyObj = obj =>
  *
  * fn generateSDK
  * Generates SDK file and documentation from given config
- * 
+ *
  * @export
  * @param {*} {
  *   jsonFile,
@@ -176,7 +176,6 @@ export function generateSDK({
 
           const bodyParamsDocGenerators = params => {
             // lets group body/formData params,path params and query params together
-            //
             const body = params.filter(param =>
               ["body", "formData"].includes(param.in) ? param : false
             );
@@ -199,7 +198,7 @@ export function generateSDK({
 
                 arrSDKDoc.push(
                   `  /** ${getDefinitionKey(schema)} modal,${
-                  schema.type ? "type - " + schema.type + "," : ""
+                    schema.type ? "type - " + schema.type + "," : ""
                   } ${stringifyObj(removeKeys(other, "in"))} */`
                 );
 
@@ -352,7 +351,7 @@ export function generateSDK({
           api.parameter.fields &&
           Object.entries(api.parameter.fields)
             .map(arr => arr[0])
-            .includes("Request formdata");
+            .includes("Request formdata"); // User can group by any name, need to standerize some name for these things
 
         const operationFunction = functionSignature({
           hasPathParams: extractPathParams(url).length,
@@ -414,7 +413,7 @@ export function generateSDK({
 
   arrSDKCode.push(endString);
 
-  const dir = "sdk"; //output directory
+  const dir = "sdk"; // output directory
 
   // Create sdk directory if it doesn't exists
   if (!fs.existsSync(dir)) {
@@ -423,17 +422,23 @@ export function generateSDK({
 
   if (jsFile) {
     cp(jsFile, "sdk/transformOperations.js", (err, res) => {
-      if (err) { throw err; }
+      if (err) {
+        throw err;
+      }
     });
   }
 
   // Save the documentation to README.md file inside sdk folder
   fs.writeFile("sdk/README.md", arrSDKDoc.join(""), err => {
-    if (err) { throw err; }
+    if (err) {
+      throw err;
+    }
   });
 
   // Save the SDK code to given name inside sdk folder
   fs.writeFile("sdk/" + name + ".js", arrSDKCode.join(""), err => {
-    if (err) { throw err; }
+    if (err) {
+      throw err;
+    }
   });
 }
