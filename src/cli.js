@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import arg from "arg";
-import { createProject } from "./main";
+import { Schedular } from "./main";
 import { printManPage } from "./utils";
 
 /**
@@ -79,5 +79,5 @@ export async function cli(args) {
     process.exit(1);
   }
 
-  await createProject(options);
+  await new Schedular(options).generateSDK();
 }

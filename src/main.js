@@ -3,65 +3,92 @@ import fs from "fs";
 import Listr from "listr";
 import path from "path";
 import { promisify } from "util";
+import {
+  stringOne as sdkClassStartString,
+  endString as sdkClassEndString,
+  functionSignature as apiMethodSignatureString
+} from "./code-strings/sdk-strings";
+import { CodePlusDocGen } from "./docgen.js";
+import { CodeGen } from "./codgen";
 
 const access = promisify(fs.access);
 
-const { generateSDK } = require("./codgen.js");
+class Schedular {
+  constructor(options) {
+    this.options = { ...this.options };
 
-export async function createProject(options) {
-  options = {
-    ...options
-  };
+    this.jsonFile = options.jsonFile;
 
-  const jsonFile = options.jsonFile;
+    this.jsonFileDir = path.resolve(process.cwd(), this.jsonFile);
 
-  const jsonFileDir = path.resolve(process.cwd(), jsonFile);
+    this.options.jsonFile = this.jsonFileDir;
 
-  options.jsonFile = jsonFileDir;
+    this.jsFile = options.jsFile;
 
-  const jsFile = options.jsFile;
+    if (this.jsFile) {
+      const jsFileDir = path.resolve(process.cwd(), this.jsFile);
 
-  if (jsFile) {
-    const jsFileDir = path.resolve(process.cwd(), jsFile);
-
-    options.jsFile = jsFileDir;
+      this.options.jsFile = jsFileDir;
+    }
   }
 
-  try {
-    await access(jsonFileDir, fs.constants.R_OK);
+  async checkFileAccess() {
+    try {
+      await access(this.jsonFileDir, fs.constants.R_OK);
 
-    if (jsFile) {
-      await access(jsFile, fs.constants.R_OK);
+      if (this.jsFile) {
+        await access(this.jsFile, fs.constants.R_OK);
+      }
+    } catch (err) {
+      console.error(
+        "%s does not exist or invalid or no permission to read",
+        chalk.red.bold("ERROR")
+      );
+
+      process.exit(1);
     }
-  } catch (err) {
-    console.error(
-      "%s does not exist or invalid or no permission to read",
-      chalk.red.bold("ERROR")
+  }
+
+  // will just overide this function to use CodeGen or CodePlusDocGen or anythings
+  queueCodeGenerationTask() {
+    this.checkFileAccess();
+
+    return new CodePlusDocGen({
+      ...this.options,
+      apiMethodSignatureString,
+      sdkClassStartString,
+      sdkClassEndString
+    }).generateCode()
+  }
+
+  async generateSDK() {
+    const tasks = new Listr(
+      [
+        {
+          title: "Generating Sdk...",
+          task: () => this.queueCodeGenerationTask()
+        }
+      ],
+      {
+        exitOnError: false
+      }
     );
 
-    process.exit(1);
+    await tasks.run();
+
+    console.log(
+      `
+      %s sdk folder generated successfully with required files
+      `,
+      chalk.green.bold("DONE")
+    );
+
+    return true;
   }
+}
 
-  const tasks = new Listr(
-    [
-      {
-        title: "Generating Sdk...",
-        task: () => generateSDK(options)
-      }
-    ],
-    {
-      exitOnError: false
-    }
-  );
-
-  await tasks.run();
-
-  console.log(
-    `
-    %s sdk folder generated successfully with required files
-    `,
-    chalk.green.bold("DONE")
-  );
-
-  return true;
+export {
+  Schedular,
+  CodeGen,
+  CodePlusDocGen
 }
