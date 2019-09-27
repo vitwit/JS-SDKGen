@@ -1,5 +1,5 @@
 import fs from 'fs';
-import CodeGen from "./codgen";
+import { CodeGen } from "./codgen";
 import { markdownStartString, markdownCodeBlockEnd, responseMarkdown, appendModalLink, operationMarkdownEnd } from "./code-strings/docs-strings";
 import { getDefinitionKey, stringifyObj, removeKeys } from "./utils";
 

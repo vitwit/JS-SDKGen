@@ -1,3 +1,5 @@
+import { toTitleCase } from "../utils";
+
 export const stringOne = ({
   sdkName,
   version,
@@ -14,7 +16,7 @@ ${
     : ""
 }
 
-export default class ${sdkName} {
+export default class ${toTitleCase(sdkName)} {
   constructor( headersObj ={}) {${
     version ? "\n    this.version =" : ""
   }'${version}'

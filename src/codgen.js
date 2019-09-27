@@ -8,8 +8,9 @@ import {
   isSwaggerJson
 } from "./utils";
 import cp from "cp";
+import { stringOne, endString, functionSignature } from "./code-strings/sdk-strings";
 
-export default class CodeGen {
+export class CodeGen {
   constructor({
     jsonFile,
     jsFile,
@@ -20,9 +21,9 @@ export default class CodeGen {
     optionalHeaders = [],
     rawCliArgs,
     //
-    apiMethodSignatureString,
-    sdkClassStartString,
-    sdkClassEndString
+    apiMethodSignatureString = functionSignature,
+    sdkClassStartString = stringOne,
+    sdkClassEndString = endString
   }) {
     this.jsonFilePath = jsonFile;
 

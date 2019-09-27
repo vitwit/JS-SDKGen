@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import arg from "arg";
-import { Schedular } from "./main";
+import { Schedular } from "./scheduleTasks";
 import { printManPage } from "./utils";
 
 /**
@@ -9,7 +9,7 @@ import { printManPage } from "./utils";
  * @param {*} rawArgs
  * @returns
  */
-function parseArgumentsIntoOptions(rawArgs) {
+export function parseArgumentsIntoOptions(rawArgs) {
   let args;
 
   try {
