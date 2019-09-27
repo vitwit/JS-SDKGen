@@ -1,5 +1,5 @@
 {
-  "name": "yash102",
+  "name": "@vitwit/js-sdkgen",
   "version": "0.0.1",
   "description": "JavaScript SDK code generator for any API. It uses apidoc definitions from swagger or apidocjs and generates the Javascript SDK automatically.",
   "main": "src/index.js",
