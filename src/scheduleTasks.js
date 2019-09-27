@@ -18,13 +18,6 @@ export class Schedular {
 
     this.jsonFile = options.jsonFile;
 
-    // defaults
-    this.apiMethodSignatureString = apiMethodSignatureString;
-
-    this.sdkClassStartString = sdkClassStartString;
-
-    this.sdkClassEndString = sdkClassEndString;
-
     this.jsonFileDir = path.resolve(process.cwd(), this.jsonFile);
 
     this.options.jsonFile = this.jsonFileDir;
