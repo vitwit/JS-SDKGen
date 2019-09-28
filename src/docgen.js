@@ -1,7 +1,15 @@
-import fs from 'fs';
+import fs from "fs";
 import { CodeGen } from "./codgen";
-import { markdownStartString, markdownCodeBlockEnd, responseMarkdown, appendModalLink, operationMarkdownEnd } from "./code-strings/docs-strings";
+import {
+  markdownStartString,
+  markdownCodeBlockEnd,
+  responseMarkdown,
+  appendModalLink,
+  operationMarkdownEnd
+} from "./code-strings/docs-strings";
 import { getDefinitionKey, stringifyObj, removeKeys } from "./utils";
+
+// TODO: - right now only generating for swagger, to do for apidocjs
 
 export class CodePlusDocGen extends CodeGen {
   constructor(...args) {
@@ -14,19 +22,17 @@ export class CodePlusDocGen extends CodeGen {
     this.thisOperationResponesModals = [];
   }
 
-  whileLoopinOverJson(
-    { operationName, responses, parameters, ...rest }
-  ) {
+  whileLoopinOverJson({ operationName, responses, parameters, ...rest }) {
     super.whileLoopinOverJson({ operationName, ...rest });
 
-    this.bodyParamsDocGenerators(parameters, operationName, this.name)
+    this.bodyParamsDocGenerators(parameters, operationName, this.name);
 
-    this.responsesDocsGenerators(responses)
+    this.responsesDocsGenerators(responses);
 
-    this.appendModalsLinkBelowExampleIfAny()
+    this.appendModalsLinkBelowExampleIfAny();
   }
 
-  bodyParamsDocGenerators (params, operationName, name) {
+  bodyParamsDocGenerators(params, operationName, name) {
     // lets group body/formData params,path params and query params together
     const body = params.filter(param =>
       ["body", "formData"].includes(param.in) ? param : false
@@ -49,18 +55,18 @@ export class CodePlusDocGen extends CodeGen {
         //   _jsonFile.definitions[getDefinitionKey(schema)];
 
         this.arrSDKDoc.push(
-            `  /** ${getDefinitionKey(schema)} modal,${
-              schema.type ? "type - " + schema.type + "," : ""
-            } ${stringifyObj(removeKeys(other, "in"))} */`
+          `  /** ${getDefinitionKey(schema)} modal,${
+            schema.type ? "type - " + schema.type + "," : ""
+          } ${stringifyObj(removeKeys(other, "in"))} */`
         );
 
         this.thisOperationBodyParamsModals.push(getDefinitionKey(schema));
       } else {
         // else just name: type of param, stringify other info and comment // if there is a object in other info just JSON.stringify
         this.arrSDKDoc.push(
-            ` ${name}:${type}, /** ${stringifyObj({
-              ...removeKeys(other, "in")
-            })} */\n`
+          ` ${name}:${type}, /** ${stringifyObj({
+            ...removeKeys(other, "in")
+          })} */\n`
         );
       }
     });
@@ -70,9 +76,9 @@ export class CodePlusDocGen extends CodeGen {
 
       pathParams.forEach(({ name, type, ...other }) => {
         this.arrSDKDoc.push(
-            `   ${name}:${type}, /** ${stringifyObj({
-              ...removeKeys(other, "in")
-            })} */ \n`
+          `   ${name}:${type}, /** ${stringifyObj({
+            ...removeKeys(other, "in")
+          })} */ \n`
         );
       });
 
@@ -84,9 +90,9 @@ export class CodePlusDocGen extends CodeGen {
 
       qparams.forEach(({ name, type, ...other }) => {
         this.arrSDKDoc.push(
-            `   ${name}:${type}, /** ${stringifyObj({
-              ...removeKeys(other, "in")
-            })} */ \n`
+          `   ${name}:${type}, /** ${stringifyObj({
+            ...removeKeys(other, "in")
+          })} */ \n`
         );
       });
 
@@ -96,7 +102,7 @@ export class CodePlusDocGen extends CodeGen {
     this.arrSDKDoc.push(markdownCodeBlockEnd());
   }
 
-  responsesDocsGenerators (responses) {
+  responsesDocsGenerators(responses) {
     const twoXX = {};
 
     const fourXX = {};
@@ -130,7 +136,7 @@ export class CodePlusDocGen extends CodeGen {
     });
 
     this.arrSDKDoc.push(
-          `\n**Responses**\n
+      `\n**Responses**\n
           `
     );
 
@@ -183,27 +189,31 @@ export class CodePlusDocGen extends CodeGen {
 
     Object.keys(definitions).forEach(key => {
       this.arrSDKDoc.push(
-              `\n ### ${key}-modal\n \`\`\`json\n${JSON.stringify(
-                definitions[key],
-                null,
-                2
-              )}\n\`\`\`\n`
+        `\n ### ${key}-modal\n \`\`\`json\n${JSON.stringify(
+          definitions[key],
+          null,
+          2
+        )}\n\`\`\`\n`
       );
     });
-  };
+  }
 
   generateCode() {
     super.generateCode();
 
     if (this.isSwaggerGenerated) {
-      this.addModalDefinitionsForSwagger()
+      this.addModalDefinitionsForSwagger();
     }
 
     // Save the documentation to README.md file inside sdk folder
-    fs.writeFile(this.dirPathForGeneratedSdk + "/README.md", this.arrSDKDoc.join(""), err => {
-      if (err) {
-        throw err;
+    fs.writeFile(
+      this.dirPathForGeneratedSdk + "/README.md",
+      this.arrSDKDoc.join(""),
+      err => {
+        if (err) {
+          throw err;
+        }
       }
-    });
+    );
   }
 }

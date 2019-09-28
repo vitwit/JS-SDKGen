@@ -171,3 +171,6 @@ export const stringifyObj = obj =>
     })
     .join()
     .replace(/:/g, "-");
+
+export const getTransformResString = key =>
+  `\n      transformResponse:transformOperations['${key}'],`;

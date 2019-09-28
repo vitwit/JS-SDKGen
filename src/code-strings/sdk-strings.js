@@ -1,4 +1,4 @@
-import { toTitleCase } from "../utils";
+import { toTitleCase, getTransformResString } from "../utils";
 
 export const stringOne = ({
   sdkName,
@@ -180,9 +180,6 @@ export default class ${toTitleCase(sdkName)} {
 
     `;
 };
-
-export const getTransformResString = key =>
-  `\n      transformResponse:transformOperations['${key}'],`;
 
 export function functionSignature({
   hasPathParams,

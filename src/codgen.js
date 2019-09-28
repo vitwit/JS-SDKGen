@@ -8,7 +8,11 @@ import {
   isSwaggerJson
 } from "./utils";
 import cp from "cp";
-import { stringOne, endString, functionSignature } from "./code-strings/sdk-strings";
+import {
+  stringOne,
+  endString,
+  functionSignature
+} from "./code-strings/sdk-strings";
 
 export class CodeGen {
   constructor({
@@ -86,28 +90,18 @@ export class CodeGen {
   }
 
   justBeforeLoopingOverJson() {
-    // this.generatedInitailStateStrings.push(this.initialStateStartString);
-
     this.generatedJsCodeStrings.push(
       this.sdkClassStartString(this.sdkClassStartStringParams)
     );
   }
 
   whileLoopinOverJson(apiMethodDetailsWeKnowAhead) {
-    // this.generatedInitailStateStrings.push({
-    //   operationName: apiMethodDetailsWeKnowAhead.operationName
-    // });
-
     this.generatedJsCodeStrings.push(
       this.apiMethodSignatureString(apiMethodDetailsWeKnowAhead)
     );
   }
 
   justAfterLoopingOverJson() {
-    // it should not have all things after loop, hahaha
-
-    // this.generatedInitailStateStrings.push(this.initialStateEndString);
-
     this.generatedJsCodeStrings.push(this.sdkClassEndString);
   }
 
@@ -139,8 +133,7 @@ export class CodeGen {
     // if a formatter function passed down to format json
     const formatedJson = this.transformJson(this.parsedJson);
 
-    // be ready.......we are about to loop over
-    this.justBeforeLoopingOverJson(); // ok
+    this.justBeforeLoopingOverJson();
 
     formatedJson.forEach(
       ({ operationName, url, requestMethod, isFormData }) => {
@@ -212,7 +205,7 @@ export class CodeGen {
         api.parameter.fields &&
         Object.entries(api.parameter.fields)
           .map(arr => arr[0])
-          .includes("Request formdata"); // this need to standardize bcoz user can group them by any name;
+          .includes("Request formdata"); // TODO: this need to standardize bcoz user can group them by any name;
 
       const apiMethodDetailsWeKnowAhead = {
         hasPathParams: extractPathParams(url).length,
@@ -244,7 +237,7 @@ export class CodeGen {
         this.loopOverIfApidocJsGenerated();
       }
 
-      this.boomBoomGenerateTheFiles()
+      this.boomBoomGenerateTheFiles();
     } catch (err) {
       console.log(err);
 

@@ -3,18 +3,13 @@ import fs from "fs";
 import Listr from "listr";
 import path from "path";
 import { promisify } from "util";
-import {
-  stringOne as sdkClassStartString,
-  endString as sdkClassEndString,
-  functionSignature as apiMethodSignatureString
-} from "./code-strings/sdk-strings";
 import { CodePlusDocGen } from "./docgen.js";
 
 const access = promisify(fs.access);
 
 export class Schedular {
   constructor(options) {
-    this.options = { ...this.options };
+    this.options = { ...options };
 
     this.jsonFile = options.jsonFile;
 
@@ -29,6 +24,8 @@ export class Schedular {
 
       this.options.jsFile = jsFileDir;
     }
+
+    this.CodeGenToUse = CodePlusDocGen;
 
     this.checkFileAccess();
   }
@@ -50,19 +47,15 @@ export class Schedular {
     }
   }
 
-  // will just overide this function to use CodeGen or CodePlusDocGen or anythings
-  queueCodeGenerationTask() {
-    return new CodePlusDocGen({
-      ...this.options
-    }).generateCode();
-  }
-
   async generateSDK() {
     const tasks = new Listr(
       [
         {
           title: "Generating Sdk...",
-          task: () => this.queueCodeGenerationTask()
+          task: () =>
+            new this.CodeGenToUse({
+              ...this.options
+            }).generateCode()
         }
       ],
       {
