@@ -18,8 +18,8 @@ ${
 
 export default class ${toTitleCase(sdkName)} {
   constructor( headersObj ={}) {${
-    version ? "\n    this.version =" : ""
-  }'${version}'
+    version ? "\n    this.version =" + "'" + version + "'" : ""
+  }
     this.requiredHeaders = '${requiredHeaders}';
     this.optionalHeaders = '${optionalHeaders}';
     this.name = "${sdkName}";
@@ -123,7 +123,7 @@ export default class ${toTitleCase(sdkName)} {
   }
   // intercept response
   interceptResponse(cb) {
-    // just want to make user provide one callback,so mergin to callbacks
+    // just want to make user provide only one callback,so merging two callbacks
     const cb1 = r => cb(r);
     const cb2 = e => cb(undefined, e);
     this.axiosInstance.interceptors.response.use(cb1, cb2);
