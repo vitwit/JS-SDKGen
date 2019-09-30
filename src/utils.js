@@ -127,3 +127,50 @@ export const removeKeys = (obj, ...a) => {
 
   return abc;
 };
+
+/**
+ *
+ * fn isDocJson
+ * Checks if the given json is of apidocjs style
+ *
+ * @param {*} json
+ * @returns true / false
+ */
+export const isApidocJs = json => {
+  const api = json && json[0];
+
+  return api && api.type && api.url && api.name && api.parameter.fields;
+};
+
+/**
+ *
+ * fn isSwaggerJson
+ * Checks if given json file is of swagger style
+ *
+ * @param {*} json
+ * @returns true / false
+ */
+export const isSwaggerJson = json => {
+  return json && json.swagger;
+};
+
+/**
+ *
+ *
+ * fn stringifyObj
+ * Stringifies the given object (multi-level)
+ *
+ * @param {*} obj
+ */
+export const stringifyObj = obj =>
+  Object.keys(obj)
+    .map(key => {
+      return `${key}:${
+        typeof obj[key] !== "object" ? obj[key] : JSON.stringify(obj[key])
+      }`;
+    })
+    .join()
+    .replace(/:/g, "-");
+
+export const getTransformResString = key =>
+  `\n      transformResponse:transformOperations['${key}'],`;

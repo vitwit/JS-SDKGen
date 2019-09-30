@@ -1,4 +1,6 @@
-const stringOne = ({
+import { toTitleCase, getTransformResString } from "../utils";
+
+export const stringOne = ({
   sdkName,
   version,
   baseUrl,
@@ -14,7 +16,7 @@ ${
     : ""
 }
 
-export default class ${sdkName} {
+export default class ${toTitleCase(sdkName)} {
   constructor( headersObj ={}) {${
     version ? "\n    this.version =" : ""
   }'${version}'
@@ -63,13 +65,12 @@ export default class ${sdkName} {
   fetchApi({
     isFormData,
     method,
-    _data,
+    data = {},
     _url,
-    _params = {},
-    transformResponse,
-    _pathParams = [],
-    headerConfigs = {}
+    transformResponse
   }) {
+    const { _params = {}, _pathParams = {}, ..._data } = data;
+    // eslint-disable-next-line
     return new Promise(async resolve => {
       const obj = {
         error: null,
@@ -180,10 +181,7 @@ export default class ${sdkName} {
     `;
 };
 
-const getTransformResString = key =>
-  `\n      transformResponse:transformOperations['${key}'],`;
-
-function functionSignature({
+export function functionSignature({
   hasPathParams,
   operationName,
   transformResponse,
@@ -192,53 +190,18 @@ function functionSignature({
   isFormData
 }) {
   return `
-  ${operationName}({ _params,_pathParams,${
-    requestMethod === "PUT" || requestMethod === "POST" ? "..._data" : ""
-  } } = {}) {
+  ${operationName}(data) {
     return this.fetchApi({
       method: "${requestMethod}",${
     isFormData ? "\n      isFormData: true," : ""
   }
-      _url: '${url}',${
-    requestMethod === "PUT" || requestMethod === "POST" ? "\n      _data," : ""
-  }
-      _params,${hasPathParams ? "\n      _pathParams," : ""}${
-    transformResponse ? getTransformResString(operationName) : ""
-  }
+      _url: '${url}',
+      data,${transformResponse ? getTransformResString(operationName) : ""}
     });
   }
   `;
 }
 
-const endString = `
+export const endString = `
 }
 `;
-
-export { stringOne, functionSignature, endString };
-
-// MARKDOWN
-export const markdownStartString = ({ name, operationName }) => `
-<details>
-
-<summary>${operationName}</summary>
-
-${operationName}
----
- **Example**
-
- \`\`\`js
- const  { data, error } = await name.${operationName}({
-`;
-
-export const markdownCodeBlockEnd = () => `
-})
-\`\`\``;
-
-export const appendModalLink = modal => ` [${modal}](###${modal}-modal) `;
-
-export const operationMarkdownEnd = () => `
-</details>
-`;
-
-export const responseMarkdown = ({ resCode, json }) =>
-  `\n> ${resCode}\n\`\`\`json\n${JSON.stringify(json, null, 2)}\n\`\`\`\n`;

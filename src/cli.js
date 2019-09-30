@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import arg from "arg";
-import { createProject } from "./main";
+import { Schedular } from "./scheduleTasks";
 import { printManPage } from "./utils";
 
 /**
@@ -9,7 +9,7 @@ import { printManPage } from "./utils";
  * @param {*} rawArgs
  * @returns
  */
-function parseArgumentsIntoOptions(rawArgs) {
+export function parseArgumentsIntoOptions(rawArgs) {
   let args;
 
   try {
@@ -79,5 +79,5 @@ export async function cli(args) {
     process.exit(1);
   }
 
-  await createProject(options);
+  await new Schedular(options).generateSDK();
 }
