@@ -24,6 +24,7 @@ export class CodeGen {
     requiredHeaders = [],
     optionalHeaders = [],
     rawCliArgs,
+    output,
     //
     apiMethodSignatureString = functionSignature,
     sdkClassStartString = stringOne,
@@ -86,7 +87,7 @@ export class CodeGen {
     };
 
     //
-    this.dirPathForGeneratedSdk = "src/sdk";
+    this.dirPathForGeneratedSdk = output ? output + '/sdk' : "sdk"
   }
 
   justBeforeLoopingOverJson() {
@@ -107,6 +108,8 @@ export class CodeGen {
 
   boomBoomGenerateTheFiles() {
     if (!fs.existsSync(this.dirPathForGeneratedSdk)) {
+      console.log('directory not exist')
+
       fs.mkdirSync(this.dirPathForGeneratedSdk);
     }
 

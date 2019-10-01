@@ -31,11 +31,9 @@ Below are the list of parameters available for node cli config while generating 
 | `--base-url`        | `-b`  | base url of your application (API endpoint), will be passed axios instance                   | required                                                                                                         |
 | `--name`            | `-n`  | it will be name of generated sdk class                                                       | optional                                                                                                         |
 | `--version`         | `-v`  | version of sdk                                                                               | optional                                                                                                         |
-| `--required-headers` | `-r`  | requirdHeaders params will berequired to pass when initiate the sdk class on frontend        |
-| `--optional-headers` | `-o`  |                                                                                              |
-
-Any other parameters passed will be added to configs.headers which will be passed to axios instance. All the headers will be used as default headers for every request.
-
+| `--requiredHeaders` | `-r`  | requirdHeaders params will berequired to pass when initiate the sdk class on frontend        |
+| `--optionalHeaders` | `-o`  |                                                                                              | Any other parameters passed will be added to configs.headers which will be passed to axios instance. All the headers will be used as default headers for every request.|
+|`--output`|             |  path of directory you want to store generated sdk folder in. for example to store in src of current directory pass `--output src`,for current dir's sibling folder's src `--output ../siblingDir/src`, don't pass any trailing slash,wrap in quotes if path contains escape character | |
 ```js //usage
 const mySDK = new MySDK({
   MandatoryHeader1: "Header1Value",

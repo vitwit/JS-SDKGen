@@ -83,8 +83,10 @@ export const printManPage = () => {
   
   --baseUrl:          String
   
-  --requiredHeaders: [String] --requiredHeaders token,key,account or --requiredHeaders=token,key,account
+  --requiredHeaders: [String] required headers token,key,account or --requiredHeaders=token,key,account
   
+  --output:            String   output dir path
+ 
   --optionalHeaders: [String]
   
   --help: Boolean
