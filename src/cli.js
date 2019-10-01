@@ -22,6 +22,7 @@ export function parseArgumentsIntoOptions(rawArgs) {
       "--base-url": String,
       "--required-headers": [String],
       "--optional-headers": [String],
+      "--output": String,
       "--help": Boolean,
       // Aliases
       "-f": "--json-file",
@@ -60,7 +61,8 @@ export function parseArgumentsIntoOptions(rawArgs) {
     baseUrl: args["--base-url"],
     version: args["--version"],
     jsonFile: args["--json-file"],
-    jsFile: args["--js-file"]
+    jsFile: args["--js-file"],
+    output: args["--output"]
   };
 }
 
