@@ -120,7 +120,7 @@ export class CodeGen {
     }
 
     fs.writeFile(
-      this.dirPathForGeneratedSdk + "/sdk" + ".js",
+      this.dirPathForGeneratedSdk + "/" + this.name + ".js",
       this.generatedJsCodeStrings.join(""),
       err => {
         if (err) throw err;

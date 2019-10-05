@@ -32,7 +32,7 @@ export class CodePlusDocGen extends CodeGen {
     this.appendModalsLinkBelowExampleIfAny();
   }
 
-  bodyParamsDocGenerators(params, operationName, name) {
+  bodyParamsDocGenerators(params = [], operationName = '', name = '') {
     // lets group body/formData params,path params and query params together
     const body = params.filter(param =>
       ["body", "formData"].includes(param.in) ? param : false
