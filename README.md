@@ -13,7 +13,7 @@ Node.js
 ### Install
 
 ```sh
-npm install -g js-sdkgen
+npm install -g @vitwit/js-sdkgen
 ```
 
 ### Usage
