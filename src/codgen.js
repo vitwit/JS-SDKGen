@@ -46,9 +46,6 @@ export class CodeGen {
 
     this.rawCliArgs = rawCliArgs;
 
-    // will parse other args here;
-    this.withReduxConfigs = true;
-
     this.parsedJson = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
 
     this.transformJson = a => a;
@@ -73,7 +70,6 @@ export class CodeGen {
 
     this.sdkClassEndString = sdkClassEndString;
 
-    //
     this.generatedJsCodeStrings = [];
 
     // ahh, just to reuse
