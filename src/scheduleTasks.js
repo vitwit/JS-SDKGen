@@ -4,12 +4,17 @@ import Listr from "listr";
 import path from "path";
 import { promisify } from "util";
 import { CodePlusDocGen } from "./docgen.js";
+import { ShellScriptGen } from "./shellScriptGen.js";
 
 const access = promisify(fs.access);
 
 export class Schedular {
-  constructor(options) {
+  constructor(options = {}, parsedArgs = {}, other = {}) {
     this.options = { ...options };
+
+    this.otherArgs = { ...other }
+
+    this.parsedArgs = parsedArgs;
 
     this.jsonFile = options.jsonFile;
 
@@ -26,6 +31,8 @@ export class Schedular {
     }
 
     this.CodeGenToUse = CodePlusDocGen;
+
+    this.ShellScriptGen = ShellScriptGen;
 
     this.checkFileAccess();
   }
@@ -55,7 +62,12 @@ export class Schedular {
           task: () =>
             new this.CodeGenToUse({
               ...this.options
-            }).generateCode()
+            }, this.otherArgs).generateCode()
+        },
+        {
+          title: "Generating Shell Script...",
+          task: () =>
+            new this.ShellScriptGen(this.parsedArgs, this.otherArgs).generateShellScript()
         }
       ],
       {
