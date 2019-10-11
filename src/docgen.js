@@ -32,15 +32,15 @@ export class CodePlusDocGen extends CodeGen {
     this.appendModalsLinkBelowExampleIfAny();
   }
 
-  bodyParamsDocGenerators(params = [], operationName = '', name = '') {
+  bodyParamsDocGenerators(params = [], operationName = "", name = "") {
     // lets group body/formData params,path params and query params together
-    const body = params.filter(param =>
+    const body = params.filter((param = {}) =>
       ["body", "formData"].includes(param.in) ? param : false
     );
 
-    const pathParams = params.filter(param => param.in === "path");
+    const pathParams = params.filter((param = {}) => param.in === "path");
 
-    const qparams = params.filter(param => param.in === "query");
+    const qparams = params.filter((param = {}) => param.in === "query");
 
     //
     this.arrSDKDoc.push(markdownStartString({ operationName, name }));
@@ -51,9 +51,6 @@ export class CodePlusDocGen extends CodeGen {
       //  so we just comment meta info here and link to that modal below example code
 
       if (name === "body") {
-        // const definition =
-        //   _jsonFile.definitions[getDefinitionKey(schema)];
-
         this.arrSDKDoc.push(
           `  /** ${getDefinitionKey(schema)} modal,${
             schema.type ? "type - " + schema.type + "," : ""

@@ -75,8 +75,6 @@ export function parseArgumentsIntoOptions(rawArgs) {
 export async function cli(args) {
   const options = parseArgumentsIntoOptions(args);
 
-  console.log('hello')
-
   if (!options.jsonFile) {
     console.error("%s --json-file is required", chalk.red.bold("ERROR"));
 
