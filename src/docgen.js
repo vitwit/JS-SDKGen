@@ -99,7 +99,7 @@ export class CodePlusDocGen extends CodeGen {
     this.arrSDKDoc.push(markdownCodeBlockEnd());
   }
 
-  responsesDocsGenerators(responses) {
+  responsesDocsGenerators(responses = {}) {
     const twoXX = {};
 
     const fourXX = {};
@@ -180,7 +180,7 @@ export class CodePlusDocGen extends CodeGen {
   }
 
   addModalDefinitionsForSwagger() {
-    const definitions = this.parsedJson.definitions;
+    const definitions = this.parsedJson.definitions || {};
 
     this.arrSDKDoc.push("\n# Modal Definations\n");
 
