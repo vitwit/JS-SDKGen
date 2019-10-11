@@ -1,4 +1,5 @@
 import fs from "fs";
+import path from 'path';
 
 export class ShellScriptGen {
   constructor(parsedArgs, { pkg = "js-sdkgen", ...otherArgs } = {}) {
@@ -8,17 +9,25 @@ export class ShellScriptGen {
 
     this.parsedArgs = parsedArgs;
 
-    this.dirPathForGeneratedSdk = this.otherArgs['--output'] ? `${this.otherArgs['--output']}/sdk` : 'sdk'
+    this.dirPathForGeneratedSdk = this.parsedArgs["--output"]
+      ? `${this.parsedArgs["--output"]}/sdk`
+      : "sdk";
   }
 
   convertBackParsedArgsIntoCliScript() {
-    let unParsedStr = `${this.pkg} `;
+    let unParsedStr = `curl ${this.parsedArgs['--base-url']}/api-doc.json -o ${path.resolve('', this.parsedArgs['--json-file'])} && ${this.pkg} `;
 
     Object.entries(this.parsedArgs)
       .filter(arr => arr[0] !== "_")
       .forEach(arr => {
         if (typeof arr[1] === "string") {
-          unParsedStr += arr[0] + " " + arr[1] + " ";
+          if (arr[0] === '--json-file') {
+            unParsedStr += arr[0] + ' ' + path.resolve('', this.parsedArgs['--json-file']) + " ";
+          } else if (arr[0] === '--output') {
+            unParsedStr += arr[0] + ' ' + path.resolve('', this.parsedArgs['--output']) + " ";
+          } else {
+            unParsedStr += arr[0] + " " + arr[1] + " ";
+          }
         } else {
           unParsedStr += arr[0] + " ";
 
@@ -32,16 +41,16 @@ export class ShellScriptGen {
   }
 
   generateShellScript() {
-    const shellScript = this.convertBackParsedArgsIntoCliScript(this.parsedArgs)
-
-    fs.writeFile(
-      this.dirPathForGeneratedSdk + "/sdk.sh",
-      shellScript,
-      err => {
-        if (err) {
-          throw err;
-        }
-      }
+    const shellScript = this.convertBackParsedArgsIntoCliScript(
+      this.parsedArgs
     );
+
+    fs.writeFile(this.dirPathForGeneratedSdk + "/sdk.sh", shellScript, err => {
+      if (err) {
+        console.log(this.dirPathForGeneratedSdk, 'dir')
+
+        throw err;
+      }
+    });
   }
 }
