@@ -19,8 +19,11 @@ npm install -g @vitwit/js-sdkgen
 ### Usage
 
 ```sh
-js-sdkgen --json-file=swagger.json --name=SampleSDK --version=1.0.0 --base-url=https://vitwit.com/api --required-headers accountId --optional-headers accessToken
+js-sdkgen --json-file swagger.json --name SampleSDK --version 1.0.0 --base-url https://vitwit.com/api --required-headers accountId --optional-headers accessToken --output src
 ```
+Running above command will generate a folder with name sdk and will have a `js` file containing sdk code,`README.md` containing docs for using generated sdk.It also generates a `sdk.sh` file which contains the command you gave above, so that you don't have to type this again and again and you can simply run this file.
+You can even go ahead and edit this generated `sh` file and add a pre command like this `curl 'http://localhost.com/swagger.json' -O swagger.json &&` and save it forever.
+This is very helpful in active developement, now when any api is added or updated, just run the file `sh src/sdk/sdk.sh` it will fetch updated api-docs update file in local and run the rest of command.
 
 Below are the list of parameters available for node cli config while generating SDK.
 
