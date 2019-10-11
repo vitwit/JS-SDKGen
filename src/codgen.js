@@ -75,7 +75,7 @@ export class CodeGen {
     // ahh, just to reuse
     this.sdkClassStartStringParams = {
       version,
-      sdkName: name,
+      sdkName: this.name,
       baseUrl,
       transformOperations: !!this.transformOperations,
       requiredHeaders,
@@ -83,7 +83,7 @@ export class CodeGen {
     };
 
     //
-    this.dirPathForGeneratedSdk = output ? output + '/sdk' : "sdk"
+    this.dirPathForGeneratedSdk = output ? output + "/sdk" : "sdk";
   }
 
   justBeforeLoopingOverJson() {
@@ -104,7 +104,7 @@ export class CodeGen {
 
   boomBoomGenerateTheFiles() {
     if (!fs.existsSync(this.dirPathForGeneratedSdk)) {
-      console.log('directory not exist')
+      console.log("directory not exist");
 
       fs.mkdirSync(this.dirPathForGeneratedSdk);
     }
@@ -153,37 +153,52 @@ export class CodeGen {
   }
 
   loopOverIfSwaggerGenerated() {
-    const pathsData = this.parsedJson.paths;
+    const pathsData = this.parsedJson.paths || {};
 
     this.justBeforeLoopingOverJson(); // ok
 
-    Object.entries(pathsData).map(path => {
+    Object.entries(pathsData).map((path) => {
       const url = path[0];
 
-      Object.entries(path[1]).forEach(method => {
-        const requestMethod = method[0];
+      const httpVerbs = [
+        "put",
+        "post",
+        "get",
+        "delete",
+        "head",
+        "options",
+        "patch",
+        "connect",
+        "trace"
+      ];
 
-        const methodData = method[1];
+      Object.entries(path[1])
+        .filter(arr => httpVerbs.indexOf(arr[0].toLowerCase()) > -1)
+        .forEach(method => {
+          const requestMethod = method[0];
 
-        const operationName = methodData.operationId;
+          const methodData = method[1];
 
-        const consumes = methodData.consumes || [];
+          const operationName = methodData.operationId;
 
-        const isFormData = consumes.includes("multipart/form-data");
+          const consumes = methodData.consumes || [];
 
-        const apiMethodDetailsWeKnowAhead = {
-          operationName,
-          transformResponse:
-            this.transformOperations && this.transformOperations[operationName],
-          url,
-          requestMethod: requestMethod.toUpperCase(),
-          isFormData,
-          parameters: methodData.parameters,
-          responses: methodData.responses
-        };
+          const isFormData = consumes.includes("multipart/form-data");
 
-        this.whileLoopinOverJson(apiMethodDetailsWeKnowAhead);
-      });
+          const apiMethodDetailsWeKnowAhead = {
+            operationName,
+            transformResponse:
+              this.transformOperations &&
+              this.transformOperations[operationName],
+            url,
+            requestMethod: requestMethod.toUpperCase(),
+            isFormData,
+            parameters: methodData.parameters,
+            responses: methodData.responses
+          };
+
+          this.whileLoopinOverJson(apiMethodDetailsWeKnowAhead);
+        });
     });
 
     this.justAfterLoopingOverJson();
