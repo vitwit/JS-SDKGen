@@ -2,6 +2,7 @@ import chalk from "chalk";
 import arg from "arg";
 import { Schedular } from "./scheduleTasks";
 import { printManPage } from "./utils";
+import { ShellScriptGen } from "./shellScriptGen";
 
 /**
  *
@@ -9,6 +10,7 @@ import { printManPage } from "./utils";
  * @param {*} rawArgs
  * @returns
  */
+
 export function parseArgumentsIntoOptions(rawArgs) {
   let args;
 
@@ -62,7 +64,8 @@ export function parseArgumentsIntoOptions(rawArgs) {
     version: args["--version"],
     jsonFile: args["--json-file"],
     jsFile: args["--js-file"],
-    output: args["--output"]
+    output: args["--output"],
+    parsedArgs: args
   };
 }
 
@@ -73,7 +76,7 @@ export function parseArgumentsIntoOptions(rawArgs) {
  * @param {*} args
  */
 export async function cli(args) {
-  const options = parseArgumentsIntoOptions(args);
+  const { parsedArgs, ...options } = parseArgumentsIntoOptions(args);
 
   if (!options.jsonFile) {
     console.error("%s --json-file is required", chalk.red.bold("ERROR"));
@@ -81,5 +84,5 @@ export async function cli(args) {
     process.exit(1);
   }
 
-  await new Schedular(options).generateSDK();
+  await new Schedular(options, parsedArgs).generateSDK();
 }
