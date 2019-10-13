@@ -7,7 +7,7 @@
 
 Run this following command to generate the sample SDK.
 
-```js
+```sh
 js-sdkgen --json-file=swagger.json --name=SampleSDK --version=1.0.0 --base-url=https://vitwit.com/api --required-headers accountId --optional-headers accessToken
 
-``` 
+```
