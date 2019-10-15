@@ -7,16 +7,20 @@ import chalk from "chalk";
  * @param {string} [s=""]
  * @returns String with camel case
  */
+
+// this should return words valid as js variable
+
 export function toCamelCase(s = "") {
   if (!s) {
     return;
   }
 
   return s
-    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
       return index === 0 ? word.toLowerCase() : word.toUpperCase();
     })
-    .replace(/\s+/g, "");
+    .replace(/\b[^\w]+/g, "");
 }
 
 /**
@@ -29,25 +33,31 @@ export function toCamelCase(s = "") {
  * @param {string} [s=""]
  * @returns String with capitalized case
  */
+
+// it should return valid js varaible, first letter capital for class name conventions
 export function toTitleCase(s = "") {
   if (!s) {
     return;
   }
 
-  return s.replace(/\w+/g, function (w) {
-    return w[0].toUpperCase() + w.slice(1).toLowerCase()
-  });
+  return s
+    .replace(/\w+/g, function(w) {
+      return w[0].toUpperCase() + w.slice(1).toLowerCase();
+    })
+    .replace(/\b[^\w]+/g, "");
 }
 
 /**
  *
- *
+ *given a api path like users/{userId}/org/{orgId} it should be able to extract those placeholder names,
+  so that we don't have to rely on json file to find this.
  * fn extractPathParams Extracts path parameters from given path string
  *
  * @export
  * @param {string} path
  * @returns {array} path params
  */
+
 export function extractPathParams(path) {
   if (!path) {
     return;
@@ -64,6 +74,8 @@ export const notEmptyObj = obj => Object.keys(obj).length;
  *
  *
  * Help Manual
+ * may be there is better way to print manual pages, I don't know, but if simple works don't make it complex.
+ * those identations in the string are intentional.
  */
 export const printManPage = () => {
   console.log(
@@ -108,10 +120,7 @@ export const printManPage = () => {
 
 export const getDefinitionKey = a =>
   (a.$ref && a.$ref && a.$ref.split("#/definitions/")[1]) ||
-  (a &&
-    a.items &&
-    a.items.$ref &&
-    a.items.$ref.split("#/definitions/")[1]);
+  (a && a.items && a.items.$ref && a.items.$ref.split("#/definitions/")[1]);
 
 /**
  *
