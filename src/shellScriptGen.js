@@ -24,7 +24,7 @@ export class ShellScriptGen {
           if (arr[0] === '--json-file') {
             unParsedStr += arr[0] + ' ' + path.resolve('', this.parsedArgs['--json-file']) + " ";
           } else if (arr[0] === '--output') {
-            unParsedStr += arr[0] + ' ' + path.resolve('', this.parsedArgs['--output']) + " ";
+            unParsedStr += arr[0] + ' ' + path.resolve('', this.dirPathForGeneratedSdk) + " ";
           } else {
             unParsedStr += arr[0] + " " + arr[1] + " ";
           }
