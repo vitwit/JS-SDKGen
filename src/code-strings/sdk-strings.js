@@ -48,7 +48,9 @@ export default class ${toTitleCase(sdkName)} {
       configs => {
         if(this.optionalHeaders){
           this.optionalHeaders.split(',').forEach(header => {
+            if(this.getHeader(header)){
             this.configs.headers[header] = this.getHeader(header);
+            }
           });
         }
         configs.headers = this.configs.headers
