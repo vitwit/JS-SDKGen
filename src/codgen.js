@@ -62,7 +62,7 @@ export class CodeGen {
 
     this.isApiDocGenerated = isApidocJs(this.parsedJson);
 
-    this.isOurKindJson = !isSwaggerJson && !this.isGoGenerated;
+    this.isOurKindJson = !(isSwaggerJson && this.isGoGenerated);
 
     this.apiMethodSignatureString = apiMethodSignatureString;
 
@@ -120,7 +120,7 @@ export class CodeGen {
     }
 
     fs.writeFile(
-      this.dirPathForGeneratedSdk + "/" + this.name + ".js",
+      this.dirPathForGeneratedSdk + "/" + toCamelCase(this.name) + ".js",
       this.generatedJsCodeStrings.join(""),
       err => {
         if (err) throw err;
@@ -157,7 +157,7 @@ export class CodeGen {
 
     this.justBeforeLoopingOverJson(); // ok
 
-    Object.entries(pathsData).map((path) => {
+    Object.entries(pathsData).map(path => {
       const url = path[0];
 
       const httpVerbs = [
