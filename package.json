@@ -1,6 +1,6 @@
 {
   "name": "@vitwit/js-sdkgen",
-  "version": "2.0.9",
+  "version": "2.0.11",
   "description": "JavaScript SDK code generator for any API. It uses apidoc definitions from swagger or apidocjs and generates the Javascript SDK automatically.",
   "main": "src/index.js",
   "bin": {
@@ -20,7 +20,7 @@
   ],
   "author": "Vitwit",
   "contributors": [
-    "Yash Rathore <opensource@vitwit.com> (https://github.com/vitwit/SDKGen.git)"
+    "Yash Rathore <opensource@vitwit.com> (https://github.com/vitwit/JS-SDKGen.git)"
   ],
   "license": "MIT",
   "dependencies": {
@@ -40,12 +40,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vitwit/SDKGen.git"
+    "url": "git+https://github.com/vitwit/JS-SDKGen.git"
   },
   "bugs": {
-    "url": "https://github.com/vitwit/SDKGen/issues"
+    "url": "https://github.com/vitwit/JS-SDKGen/issues"
   },
-  "homepage": "https://github.com/vitwit/SDKGen#readme",
+  "homepage": "https://github.com/vitwit/JS-SDKGen#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.6.2",
     "@babel/preset-stage-3": "^7.0.0",

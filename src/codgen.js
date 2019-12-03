@@ -62,7 +62,7 @@ export class CodeGen {
 
     this.isApiDocGenerated = isApidocJs(this.parsedJson);
 
-    this.isOurKindJson = !(isSwaggerJson && this.isGoGenerated);
+    this.isOurKindJson = !(isSwaggerJson || this.isGoGenerated);
 
     this.apiMethodSignatureString = apiMethodSignatureString;
 
@@ -239,16 +239,12 @@ export class CodeGen {
 
   generateCode() {
     try {
-      if (this.isOurKindJson) {
-        this.loopOverJsonIfNotInSwaggerAndApidocjsFormat();
-      }
-
       if (this.isSwaggerGenerated) {
         this.loopOverIfSwaggerGenerated();
-      }
-
-      if (this.isApiDocGenerated) {
+      } else if (this.isApiDocGenerated) {
         this.loopOverIfApidocJsGenerated();
+      } else if (this.isOurKindJson) {
+        this.loopOverJsonIfNotInSwaggerAndApidocjsFormat();
       }
 
       this.boomBoomGenerateTheFiles();

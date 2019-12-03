@@ -8,13 +8,13 @@ addPet
  **Example**
 
  ```js
- const  { data, error } = await name.addPet({
+ const  { data, error } = await mySdk.addPet({
   /** Pet modal, description-Pet object that needs to be added to the store,required-true */
 })
 ```
 **Responses**
 
-              
+          
 > Error 4XX
 ```json
 {
@@ -36,13 +36,13 @@ updatePet
  **Example**
 
  ```js
- const  { data, error } = await name.updatePet({
+ const  { data, error } = await mySdk.updatePet({
   /** Pet modal, description-Pet object that needs to be added to the store,required-true */
 })
 ```
 **Responses**
 
-              
+          
 > Error 4XX
 ```json
 {
@@ -58,7 +58,7 @@ updatePet
 }
 ```
 
-######  [Pet](###Pet-modal) 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal) 
 </details>
 
 <details>
@@ -70,7 +70,7 @@ findPetsByStatus
  **Example**
 
  ```js
- const  { data, error } = await name.findPetsByStatus({
+ const  { data, error } = await mySdk.findPetsByStatus({
   _params: {
    status:array, /** description-Status values that need to be considered for filter,required-true,items-{"type"-"string","enum"-["available","pending","sold"],"default"-"available"},collectionFormat-multi */ 
   }
@@ -78,7 +78,7 @@ findPetsByStatus
 ```
 **Responses**
 
-              
+          
 > Success 2XX
 ```json
 {
@@ -103,7 +103,7 @@ findPetsByStatus
 }
 ```
 
-######  [Pet](###Pet-modal) 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal) 
 </details>
 
 <details>
@@ -115,7 +115,7 @@ findPetsByTags
  **Example**
 
  ```js
- const  { data, error } = await name.findPetsByTags({
+ const  { data, error } = await mySdk.findPetsByTags({
   _params: {
    tags:array, /** description-Tags to filter by,required-true,items-{"type"-"string"},collectionFormat-multi */ 
   }
@@ -123,7 +123,7 @@ findPetsByTags
 ```
 **Responses**
 
-              
+          
 > Success 2XX
 ```json
 {
@@ -148,7 +148,7 @@ findPetsByTags
 }
 ```
 
-######  [Pet](###Pet-modal) 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal) 
 </details>
 
 <details>
@@ -160,7 +160,7 @@ getPetById
  **Example**
 
  ```js
- const  { data, error } = await name.getPetById({
+ const  { data, error } = await mySdk.getPetById({
   _pathParams: {
    petId:integer, /** description-ID of pet to return,required-true,format-int64 */ 
   }
@@ -168,7 +168,7 @@ getPetById
 ```
 **Responses**
 
-              
+          
 > Success 2XX
 ```json
 {
@@ -193,7 +193,7 @@ getPetById
 }
 ```
 
-######  [Pet](###Pet-modal) 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal) 
 </details>
 
 <details>
@@ -205,7 +205,7 @@ updatePetWithForm
  **Example**
 
  ```js
- const  { data, error } = await name.updatePetWithForm({
+ const  { data, error } = await mySdk.updatePetWithForm({
  name:string, /** description-Updated name of the pet,required-false */
  status:string, /** description-Updated status of the pet,required-false */
   _pathParams: {
@@ -215,7 +215,7 @@ updatePetWithForm
 ```
 **Responses**
 
-              
+          
 > Error 4XX
 ```json
 {
@@ -225,6 +225,7 @@ updatePetWithForm
 }
 ```
 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal) 
 </details>
 
 <details>
@@ -236,7 +237,7 @@ deletePet
  **Example**
 
  ```js
- const  { data, error } = await name.deletePet({
+ const  { data, error } = await mySdk.deletePet({
   _pathParams: {
    petId:integer, /** description-Pet id to delete,required-true,format-int64 */ 
   }
@@ -244,7 +245,7 @@ deletePet
 ```
 **Responses**
 
-              
+          
 > Error 4XX
 ```json
 {
@@ -257,6 +258,7 @@ deletePet
 }
 ```
 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal) 
 </details>
 
 <details>
@@ -268,7 +270,7 @@ uploadFile
  **Example**
 
  ```js
- const  { data, error } = await name.uploadFile({
+ const  { data, error } = await mySdk.uploadFile({
  additionalMetadata:string, /** description-Additional data to pass to server,required-false */
  file:file, /** description-file to upload,required-false */
   _pathParams: {
@@ -278,7 +280,7 @@ uploadFile
 ```
 **Responses**
 
-              
+          
 > Success 2XX
 ```json
 {
@@ -291,7 +293,7 @@ uploadFile
 }
 ```
 
-######  [ApiResponse](###ApiResponse-modal) 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [ApiResponse](###ApiResponse-modal) 
 </details>
 
 <details>
@@ -303,13 +305,13 @@ getInventory
  **Example**
 
  ```js
- const  { data, error } = await name.getInventory({
+ const  { data, error } = await mySdk.getInventory({
 
 })
 ```
 **Responses**
 
-              
+          
 > Success 2XX
 ```json
 {
@@ -326,7 +328,7 @@ getInventory
 }
 ```
 
-######  [undefined](###undefined-modal) 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [ApiResponse](###ApiResponse-modal)  [undefined](###undefined-modal) 
 </details>
 
 <details>
@@ -338,13 +340,13 @@ placeOrder
  **Example**
 
  ```js
- const  { data, error } = await name.placeOrder({
+ const  { data, error } = await mySdk.placeOrder({
   /** Order modal, description-order placed for purchasing the pet,required-true */
 })
 ```
 **Responses**
 
-              
+          
 > Success 2XX
 ```json
 {
@@ -366,7 +368,7 @@ placeOrder
 }
 ```
 
-######  [Order](###Order-modal)  [Order](###Order-modal) 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Order](###Order-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [ApiResponse](###ApiResponse-modal)  [undefined](###undefined-modal)  [Order](###Order-modal) 
 </details>
 
 <details>
@@ -378,7 +380,7 @@ getOrderById
  **Example**
 
  ```js
- const  { data, error } = await name.getOrderById({
+ const  { data, error } = await mySdk.getOrderById({
   _pathParams: {
    orderId:integer, /** description-ID of pet that needs to be fetched,required-true,maximum-10,minimum-1,format-int64 */ 
   }
@@ -386,7 +388,7 @@ getOrderById
 ```
 **Responses**
 
-              
+          
 > Success 2XX
 ```json
 {
@@ -411,7 +413,7 @@ getOrderById
 }
 ```
 
-######  [Order](###Order-modal) 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Order](###Order-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [ApiResponse](###ApiResponse-modal)  [undefined](###undefined-modal)  [Order](###Order-modal)  [Order](###Order-modal) 
 </details>
 
 <details>
@@ -423,7 +425,7 @@ deleteOrder
  **Example**
 
  ```js
- const  { data, error } = await name.deleteOrder({
+ const  { data, error } = await mySdk.deleteOrder({
   _pathParams: {
    orderId:integer, /** description-ID of the order that needs to be deleted,required-true,minimum-1,format-int64 */ 
   }
@@ -431,7 +433,7 @@ deleteOrder
 ```
 **Responses**
 
-              
+          
 > Error 4XX
 ```json
 {
@@ -444,6 +446,7 @@ deleteOrder
 }
 ```
 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Order](###Order-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [ApiResponse](###ApiResponse-modal)  [undefined](###undefined-modal)  [Order](###Order-modal)  [Order](###Order-modal) 
 </details>
 
 <details>
@@ -455,13 +458,13 @@ createUser
  **Example**
 
  ```js
- const  { data, error } = await name.createUser({
+ const  { data, error } = await mySdk.createUser({
   /** User modal, description-Created user object,required-true */
 })
 ```
 **Responses**
 
-              
+          
 > Default
 ```json
 {
@@ -471,7 +474,7 @@ createUser
 }
 ```
 
-######  [User](###User-modal) 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Order](###Order-modal)  [User](###User-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [ApiResponse](###ApiResponse-modal)  [undefined](###undefined-modal)  [Order](###Order-modal)  [Order](###Order-modal) 
 </details>
 
 <details>
@@ -483,13 +486,13 @@ createUsersWithArrayInput
  **Example**
 
  ```js
- const  { data, error } = await name.createUsersWithArrayInput({
+ const  { data, error } = await mySdk.createUsersWithArrayInput({
   /** User modal,type - array, description-List of user object,required-true */
 })
 ```
 **Responses**
 
-              
+          
 > Default
 ```json
 {
@@ -499,7 +502,7 @@ createUsersWithArrayInput
 }
 ```
 
-######  [User](###User-modal) 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Order](###Order-modal)  [User](###User-modal)  [User](###User-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [ApiResponse](###ApiResponse-modal)  [undefined](###undefined-modal)  [Order](###Order-modal)  [Order](###Order-modal) 
 </details>
 
 <details>
@@ -511,13 +514,13 @@ createUsersWithListInput
  **Example**
 
  ```js
- const  { data, error } = await name.createUsersWithListInput({
+ const  { data, error } = await mySdk.createUsersWithListInput({
   /** User modal,type - array, description-List of user object,required-true */
 })
 ```
 **Responses**
 
-              
+          
 > Default
 ```json
 {
@@ -527,7 +530,7 @@ createUsersWithListInput
 }
 ```
 
-######  [User](###User-modal) 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Order](###Order-modal)  [User](###User-modal)  [User](###User-modal)  [User](###User-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [ApiResponse](###ApiResponse-modal)  [undefined](###undefined-modal)  [Order](###Order-modal)  [Order](###Order-modal) 
 </details>
 
 <details>
@@ -539,7 +542,7 @@ loginUser
  **Example**
 
  ```js
- const  { data, error } = await name.loginUser({
+ const  { data, error } = await mySdk.loginUser({
   _params: {
    username:string, /** description-The user name for login,required-true */ 
    password:string, /** description-The password for login in clear text,required-true */ 
@@ -548,7 +551,7 @@ loginUser
 ```
 **Responses**
 
-              
+          
 > Success 2XX
 ```json
 {
@@ -582,7 +585,7 @@ loginUser
 }
 ```
 
-######  [undefined](###undefined-modal) 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Order](###Order-modal)  [User](###User-modal)  [User](###User-modal)  [User](###User-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [ApiResponse](###ApiResponse-modal)  [undefined](###undefined-modal)  [Order](###Order-modal)  [Order](###Order-modal)  [undefined](###undefined-modal) 
 </details>
 
 <details>
@@ -594,13 +597,13 @@ logoutUser
  **Example**
 
  ```js
- const  { data, error } = await name.logoutUser({
+ const  { data, error } = await mySdk.logoutUser({
 
 })
 ```
 **Responses**
 
-              
+          
 > Default
 ```json
 {
@@ -610,6 +613,7 @@ logoutUser
 }
 ```
 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Order](###Order-modal)  [User](###User-modal)  [User](###User-modal)  [User](###User-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [ApiResponse](###ApiResponse-modal)  [undefined](###undefined-modal)  [Order](###Order-modal)  [Order](###Order-modal)  [undefined](###undefined-modal) 
 </details>
 
 <details>
@@ -621,7 +625,7 @@ getUserByName
  **Example**
 
  ```js
- const  { data, error } = await name.getUserByName({
+ const  { data, error } = await mySdk.getUserByName({
   _pathParams: {
    username:string, /** description-The name that needs to be fetched. Use user1 for testing. ,required-true */ 
   }
@@ -629,7 +633,7 @@ getUserByName
 ```
 **Responses**
 
-              
+          
 > Success 2XX
 ```json
 {
@@ -654,7 +658,7 @@ getUserByName
 }
 ```
 
-######  [User](###User-modal) 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Order](###Order-modal)  [User](###User-modal)  [User](###User-modal)  [User](###User-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [ApiResponse](###ApiResponse-modal)  [undefined](###undefined-modal)  [Order](###Order-modal)  [Order](###Order-modal)  [undefined](###undefined-modal)  [User](###User-modal) 
 </details>
 
 <details>
@@ -666,7 +670,7 @@ updateUser
  **Example**
 
  ```js
- const  { data, error } = await name.updateUser({
+ const  { data, error } = await mySdk.updateUser({
   /** User modal, description-Updated user object,required-true */  _pathParams: {
    username:string, /** description-name that need to be updated,required-true */ 
   }
@@ -674,7 +678,7 @@ updateUser
 ```
 **Responses**
 
-              
+          
 > Error 4XX
 ```json
 {
@@ -687,7 +691,7 @@ updateUser
 }
 ```
 
-######  [User](###User-modal) 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Order](###Order-modal)  [User](###User-modal)  [User](###User-modal)  [User](###User-modal)  [User](###User-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [ApiResponse](###ApiResponse-modal)  [undefined](###undefined-modal)  [Order](###Order-modal)  [Order](###Order-modal)  [undefined](###undefined-modal)  [User](###User-modal) 
 </details>
 
 <details>
@@ -699,7 +703,7 @@ deleteUser
  **Example**
 
  ```js
- const  { data, error } = await name.deleteUser({
+ const  { data, error } = await mySdk.deleteUser({
   _pathParams: {
    username:string, /** description-The name that needs to be deleted,required-true */ 
   }
@@ -707,7 +711,7 @@ deleteUser
 ```
 **Responses**
 
-              
+          
 > Error 4XX
 ```json
 {
@@ -720,6 +724,7 @@ deleteUser
 }
 ```
 
+######  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Order](###Order-modal)  [User](###User-modal)  [User](###User-modal)  [User](###User-modal)  [User](###User-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [Pet](###Pet-modal)  [ApiResponse](###ApiResponse-modal)  [undefined](###undefined-modal)  [Order](###Order-modal)  [Order](###Order-modal)  [undefined](###undefined-modal)  [User](###User-modal) 
 </details>
 
 # Modal Definations
